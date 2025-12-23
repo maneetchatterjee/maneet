@@ -1,9 +1,21 @@
 # Quantum LSTM for NASA Anomaly Detection
 
+[![Run QLSTM Experiments](https://github.com/maneetchatterjee/maneet/actions/workflows/run-real-data-experiments.yml/badge.svg?branch=copilot/implement-qlstm-on-nasa-dataset)](https://github.com/maneetchatterjee/maneet/actions/workflows/run-real-data-experiments.yml)
+
 This project implements and compares a **Quantum-Inspired LSTM (QLSTM)** with a baseline LSTM on the NASA SMAP-MSL anomaly detection dataset.
 
-## 🚨 Want to Run on Real NASA Data? → [**QUICKSTART.md**](QUICKSTART.md)
-**5-minute setup** to run experiments on actual NASA spacecraft data (55 channels) via GitHub Actions!
+## 🚨 Want to Run on Real NASA Data?
+
+### 🚀 **[Click Here to Run Workflow](../../actions/workflows/run-real-data-experiments.yml)** ← Direct link!
+
+**Quick Setup:**
+1. Add Kaggle credentials to [Repository Secrets](../../settings/secrets/actions)
+2. Click the link above → "Run workflow" button → Select branch → Run
+3. Download results after ~20-30 minutes
+
+**Detailed guides:**
+- [**QUICKSTART.md**](QUICKSTART.md) - 5-minute setup guide
+- [**WORKFLOW_TROUBLESHOOTING.md**](WORKFLOW_TROUBLESHOOTING.md) - Can't see "Run workflow" button? ⭐NEW
 
 ## 🎯 Quick Results (Synthetic Data)
 
