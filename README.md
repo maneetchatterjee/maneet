@@ -2,6 +2,9 @@
 
 This project implements and compares a **Quantum-Inspired LSTM (QLSTM)** with a baseline LSTM on the NASA SMAP-MSL anomaly detection dataset.
 
+## 🚨 Want to Run on Real NASA Data? → [**QUICKSTART.md**](QUICKSTART.md)
+**5-minute setup** to run experiments on actual NASA spacecraft data (55 channels) via GitHub Actions!
+
 ## 🎯 Quick Results (Synthetic Data)
 
 | Metric | Baseline LSTM | QLSTM | Winner |
@@ -13,7 +16,7 @@ This project implements and compares a **Quantum-Inspired LSTM (QLSTM)** with a 
 
 **Key Finding:** Both models achieve excellent performance (>95% F1), with classical LSTM slightly outperforming QLSTM by <1%. No quantum advantage demonstrated at current scale (4 qubits).
 
-⚠️ **Note:** These results are on synthetic data. For real NASA SMAP-MSL data (55 channels), see **[Real Data Guide](REAL_DATA_GUIDE.md)** for download instructions. Expected F1: 0.60-0.80 (real data is significantly more challenging).
+⚠️ **Note:** These results are on synthetic data. For real NASA SMAP-MSL data (55 channels), expected F1: **0.60-0.80** (real data is significantly more challenging).
 
 ## 📋 Overview
 
@@ -23,6 +26,7 @@ The NASA SMAP-MSL dataset contains spacecraft telemetry data with labeled anomal
 - ✅ Compares performance on anomaly detection tasks
 - ✅ Provides comprehensive metrics and visualizations
 - ✅ Includes literature review and comparison with state-of-the-art
+- ✅ **GitHub Actions workflow for automated experiments on real data** ⭐NEW
 
 ## 🚀 Quick Start
 
