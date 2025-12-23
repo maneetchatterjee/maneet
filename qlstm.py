@@ -73,7 +73,14 @@ class QuantumLSTMCell(keras.layers.Layer):
         super(QuantumLSTMCell, self).build(input_shape)
     
     def quantum_circuit(self, inputs, weights):
-        """Define quantum circuit."""
+        """
+        Define quantum circuit (currently unused - kept for reference).
+        
+        Note: This method is not used in the current implementation due to TensorFlow
+        graph mode compatibility issues. The actual implementation uses quantum-inspired
+        classical transformations in the call() method. This is kept for future reference
+        when full quantum circuit integration becomes feasible.
+        """
         @qml.qnode(self.dev, interface='tf')
         def circuit(inputs, weights):
             # Encode inputs
@@ -139,8 +146,10 @@ class QuantumLSTMCell(keras.layers.Layer):
             q_features = q_features + tf.roll(q_features, shift=1, axis=-1) * 0.3
         
         # Expand quantum features to match hidden state size
-        q_features_expanded = tf.tile(q_features, [1, self.units // self.n_qubits + 1])
-        q_features_expanded = q_features_expanded[:, :self.units]
+        # Ensure proper broadcasting even when units is not divisible by n_qubits
+        num_repeats = (self.units + self.n_qubits - 1) // self.n_qubits  # Ceiling division
+        q_features_expanded = tf.tile(q_features, [1, num_repeats])
+        q_features_expanded = q_features_expanded[:, :self.units]  # Trim to exact size
         
         # Compute hidden state with quantum-inspired features
         h_base = o_gate * tf.nn.tanh(c)
@@ -184,8 +193,8 @@ class QLSTM:
         try:
             qlstm_cell = QuantumLSTMCell(self.lstm_units, self.n_qubits, self.n_layers)
             x = layers.RNN(qlstm_cell)(x)
-        except Exception as e:
-            print(f"Warning: QLSTM layer failed, using classical LSTM: {e}")
+        except (ValueError, TypeError, RuntimeError) as e:
+            print(f"Warning: QLSTM layer failed ({type(e).__name__}: {e}), using classical LSTM")
             x = layers.LSTM(self.lstm_units)(x)
         
         x = layers.Dropout(0.2)(x)
