@@ -1,6 +1,6 @@
 # Advanced Computer Vision System 🎥🤖
 
-A state-of-the-art computer vision system that integrates the latest research from top-tier conferences (CVPR, ICCV, ECCV) to provide comprehensive real-time video analysis using an external camera.
+A state-of-the-art computer vision system that integrates the latest research from top-tier conferences (CVPR, ICCV, ECCV) to provide comprehensive analysis of both real-time video (from external cameras) and static images.
 
 ## 🌟 Features
 
@@ -74,14 +74,14 @@ python -c "import torch; print(torch.cuda.is_available())"
 
 ## 📖 Usage
 
-### Basic Usage
+### Real-Time Camera Analysis
 
 Run with default settings (object detection, pose estimation, face analysis):
 ```bash
 python src/main.py
 ```
 
-### Advanced Options
+#### Advanced Camera Options
 
 ```bash
 # Use specific camera device
@@ -99,6 +99,36 @@ python src/main.py --resolution 1920x1080 --fps 60
 # Force CPU mode (if no GPU available)
 python src/main.py --device cpu
 ```
+
+### Comprehensive Image Analysis (NEW!)
+
+Analyze any static image and extract **ALL possible information** with high confidence:
+
+```bash
+# Analyze a single image - gets ALL information
+python src/analyze_image.py path/to/image.jpg
+
+# Outputs include:
+# - Object detection (all objects with high confidence)
+# - Scene understanding (indoor/outdoor, weather, activities)
+# - Image captioning (natural language description)
+# - Depth estimation (3D depth map)
+# - Human pose analysis (all people detected)
+# - Hand detection (all hands with landmarks)
+# - Face analysis (emotion, age, gender for each face)
+# - Color analysis and dominant colors
+# - Image quality metrics (brightness, contrast, sharpness)
+# - Detailed classifications (style, quality, content)
+# - Comprehensive visualizations
+# - JSON + text summary of all findings
+
+# Advanced options
+python src/analyze_image.py image.jpg --output results/
+python src/analyze_image.py image.jpg --device cpu
+python src/analyze_image.py image.jpg --standard-confidence  # Faster
+```
+
+**This comprehensive analysis mode extracts maximum information from any image using all available models with high confidence thresholds.**
 
 ### Available Models
 

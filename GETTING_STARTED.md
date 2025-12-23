@@ -26,15 +26,23 @@ venv\Scripts\activate
 ```
 
 ### Step 3: Run!
+
+**For Real-Time Camera:**
 ```bash
 python src/main.py
 ```
 
-That's it! Your camera should open with real-time CV features! 🎉
+**For Static Image Analysis (NEW!):**
+```bash
+# Analyze any image and get ALL information with high confidence
+python src/analyze_image.py path/to/your/image.jpg
+```
 
-## 📹 What You'll See
+That's it! Your camera should open with real-time CV features, or your image will be comprehensively analyzed! 🎉
 
-When you run the application, you'll see:
+## 📹 Real-Time Camera Mode
+
+When you run `python src/main.py`, you'll see:
 
 1. **Object Detection Boxes** - Green boxes around detected objects (people, cars, etc.)
 2. **Tracking IDs** - Persistent IDs for tracked objects with trajectory lines
@@ -49,6 +57,42 @@ While running:
 - **q** - Quit application
 - **s** - Save current frame to `output/` folder
 - **p** - Print detailed performance statistics
+
+## 🖼️ Image Analysis Mode (NEW!)
+
+Analyze any static image and extract **ALL possible information** with high confidence:
+
+```bash
+# Comprehensive analysis of any image
+python src/analyze_image.py photo.jpg
+
+# What you get:
+# ✓ Object detection (all objects with 70%+ confidence)
+# ✓ Scene understanding (indoor/outdoor, weather, activities)
+# ✓ Natural language caption describing the image
+# ✓ Depth estimation (3D depth map)
+# ✓ All people with full pose analysis
+# ✓ All hands with 21-point landmarks
+# ✓ All faces with emotion, age, gender
+# ✓ Color analysis and dominant colors
+# ✓ Image quality metrics (brightness, contrast, sharpness)
+# ✓ Detailed classifications (style, quality, content type)
+# ✓ Comprehensive visualizations
+# ✓ JSON + text summary of all findings
+
+# Example output files:
+# - photo_analysis.json          (complete structured data)
+# - photo_analysis.txt           (human-readable report)
+# - photo_comprehensive_analysis.jpg  (grid visualization)
+# - Individual visualization images for each analysis type
+
+# With custom output directory:
+python src/analyze_image.py image.jpg --output my_results/
+```
+
+**This mode is perfect when you need MAXIMUM information from a single image with HIGH confidence!**
+
+See `docs/IMAGE_ANALYSIS.md` for complete documentation.
 
 ## 🎮 Try Different Modes
 
