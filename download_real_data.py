@@ -8,12 +8,21 @@ Prerequisites:
 2. Kaggle API credentials
 
 Setup Instructions:
+
+Method 1: Local Environment
 1. Go to https://www.kaggle.com/account
 2. Scroll to "API" section
 3. Click "Create New API Token"
 4. This downloads kaggle.json
 5. Place it in ~/.kaggle/kaggle.json (or set KAGGLE_CONFIG_DIR environment variable)
 6. Run this script: python download_real_data.py
+
+Method 2: GitHub Actions / CI Environment
+1. Get your Kaggle API credentials from https://www.kaggle.com/account
+2. Add them as GitHub Secrets:
+   - KAGGLE_USERNAME: your Kaggle username
+   - KAGGLE_KEY: your Kaggle API key
+3. The script will automatically use these credentials
 """
 
 import os
@@ -21,10 +30,40 @@ import sys
 import subprocess
 import zipfile
 import shutil
+import json
+
+
+def setup_kaggle_credentials():
+    """Setup Kaggle credentials from environment variables if available."""
+    kaggle_username = os.getenv('KAGGLE_USERNAME', '')
+    kaggle_key = os.getenv('KAGGLE_KEY', '')
+    
+    if kaggle_username and kaggle_key:
+        print("✓ Found Kaggle credentials in environment variables")
+        
+        # Create kaggle.json
+        kaggle_dir = os.path.expanduser('~/.kaggle')
+        os.makedirs(kaggle_dir, exist_ok=True)
+        
+        kaggle_json_path = os.path.join(kaggle_dir, 'kaggle.json')
+        with open(kaggle_json_path, 'w') as f:
+            json.dump({
+                'username': kaggle_username,
+                'key': kaggle_key
+            }, f)
+        
+        os.chmod(kaggle_json_path, 0o600)
+        print(f"✓ Created {kaggle_json_path} from environment variables")
+        return True
+    
+    return False
 
 
 def check_kaggle_setup():
     """Check if Kaggle CLI and credentials are available."""
+    # First try to setup from environment variables
+    env_creds = setup_kaggle_credentials()
+    
     # Check if kaggle is installed
     try:
         result = subprocess.run(['kaggle', '--version'], capture_output=True, text=True)
@@ -43,6 +82,7 @@ def check_kaggle_setup():
         print("✗ Kaggle API credentials not found!")
         print("="*70)
         print("\nTo set up Kaggle API credentials:")
+        print("\n** For Local Development: **")
         print("1. Go to https://www.kaggle.com/account")
         print("2. Scroll to 'API' section")
         print("3. Click 'Create New API Token'")
@@ -50,6 +90,12 @@ def check_kaggle_setup():
         print(f"5. Move it to: {kaggle_json}")
         print(f"6. Set permissions: chmod 600 {kaggle_json}")
         print("7. Run this script again")
+        print("\n** For GitHub Actions / CI: **")
+        print("1. Go to your repository settings")
+        print("2. Add secrets (Settings → Secrets and variables → Actions):")
+        print("   - KAGGLE_USERNAME: your Kaggle username")
+        print("   - KAGGLE_KEY: your Kaggle API key")
+        print("3. The workflow will automatically use these credentials")
         print("="*70)
         return False
     
