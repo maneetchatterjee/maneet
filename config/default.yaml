@@ -1,0 +1,72 @@
+# Configuration for Advanced CV System
+
+# Camera Settings
+camera:
+  device_id: 0          # Camera device ID (0 for default)
+  resolution: [1280, 720]  # Resolution [width, height]
+  fps: 30               # Target frames per second
+
+# Device Settings
+device: "auto"  # "cuda", "cpu", or "auto"
+
+# Model Settings
+models:
+  # Object Detection
+  detection:
+    enabled: true
+    model: "yolov8n"    # yolov8n, yolov8s, yolov8m, yolov8l, yolov8x
+    confidence: 0.5
+    
+  # Tracking
+  tracking:
+    enabled: true
+    tracker_type: "sort"
+    max_age: 30
+    
+  # Semantic Segmentation
+  segmentation:
+    enabled: false
+    model: "segformer-b5"
+    
+  # Depth Estimation
+  depth:
+    enabled: false
+    model: "dpt-large"
+    
+  # Pose Estimation
+  pose:
+    enabled: true
+    model: "vitpose"
+    
+  # Hand Pose
+  hands:
+    enabled: false
+    max_hands: 2
+    
+  # Face Analysis
+  face:
+    enabled: true
+    min_confidence: 0.5
+    analyze_emotions: true
+    
+  # Scene Understanding
+  scene:
+    enabled: false
+    model: "clip"
+
+# Visualization
+visualization:
+  show_fps: true
+  show_info_panel: true
+  grid_view: false
+
+# Performance
+performance:
+  monitor: true
+  log_interval: 100
+
+# Output
+output:
+  save_video: false
+  output_dir: "output"
+  video_codec: "mp4v"
