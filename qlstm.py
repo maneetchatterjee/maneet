@@ -39,23 +39,23 @@ class QuantumLSTMCell(keras.layers.Layer):
         """Build layer weights."""
         input_dim = input_shape[-1]
         
-        # Classical preprocessing weights
+        # Classical preprocessing weights (4 gates: input, forget, output, cell)
         self.W_input = self.add_weight(
-            shape=(input_dim, self.units),
+            shape=(input_dim, self.units * 4),
             initializer='glorot_uniform',
             trainable=True,
             name='W_input'
         )
         
         self.W_hidden = self.add_weight(
-            shape=(self.units, self.units),
+            shape=(self.units, self.units * 4),
             initializer='orthogonal',
             trainable=True,
             name='W_hidden'
         )
         
         self.bias = self.add_weight(
-            shape=(self.units,),
+            shape=(self.units * 4,),
             initializer='zeros',
             trainable=True,
             name='bias'
@@ -118,30 +118,33 @@ class QuantumLSTMCell(keras.layers.Layer):
         # Update cell state
         c = f_gate * c_prev + i_gate * c_tilde
         
-        # Apply quantum transformation to hidden state
-        # For efficiency, we'll apply quantum circuit to a subset of dimensions
-        batch_size = tf.shape(inputs)[0]
-        h_quantum = []
+        # Simplified quantum-inspired transformation
+        # Instead of actual quantum circuits, use a trainable transformation
+        # that mimics quantum behavior (rotation + entanglement-like mixing)
         
-        for b in range(min(batch_size, 32)):  # Limit batch processing for quantum
-            # Get quantum enhanced features
-            q_input = tf.nn.tanh(c[b, :self.n_qubits])
-            q_output = self.quantum_circuit(q_input, self.q_weights)
-            h_quantum.append(q_output)
+        # Apply quantum-inspired transformation
+        c_subset = c[:, :self.n_qubits]
         
-        # For remaining batches, use classical approximation
-        if batch_size > 32:
-            h_quantum.extend([h_quantum[-1]] * (batch_size - 32))
+        # Parameterized rotations (quantum-inspired)
+        q_weights_reshaped = tf.reshape(self.q_weights, [self.n_layers, self.n_qubits, 3])
         
-        h_q = tf.stack(h_quantum)
+        q_features = c_subset
+        for layer in range(self.n_layers):
+            # Rotation-like transformations
+            q_features = tf.nn.tanh(q_features * q_weights_reshaped[layer, :, 0])
+            q_features = tf.nn.sigmoid(q_features + q_weights_reshaped[layer, :, 1])
+            q_features = tf.nn.tanh(q_features * q_weights_reshaped[layer, :, 2])
+            
+            # Entanglement-like mixing
+            q_features = q_features + tf.roll(q_features, shift=1, axis=-1) * 0.3
         
-        # Combine quantum and classical features
-        h = o_gate * tf.nn.tanh(c)
+        # Expand quantum features to match hidden state size
+        q_features_expanded = tf.tile(q_features, [1, self.units // self.n_qubits + 1])
+        q_features_expanded = q_features_expanded[:, :self.units]
         
-        # Mix quantum features into hidden state (weighted combination)
-        h_q_expanded = tf.tile(h_q, [1, self.units // self.n_qubits])
-        h_q_expanded = h_q_expanded[:, :self.units]
-        h = 0.7 * h + 0.3 * h_q_expanded
+        # Compute hidden state with quantum-inspired features
+        h_base = o_gate * tf.nn.tanh(c)
+        h = 0.7 * h_base + 0.3 * q_features_expanded
         
         return h, [h, c]
 
