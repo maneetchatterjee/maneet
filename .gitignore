@@ -23,8 +23,7 @@ wheels/
 .installed.cfg
 *.egg
 
-# Models and weights
-models/
+# Models and weights (downloaded files, not source code)
 weights/
 *.pth
 *.pt
