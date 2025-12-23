@@ -1,6 +1,7 @@
 """
 Data loader for NASA SMAP-MSL anomaly detection dataset.
 Based on the dataset from: https://github.com/khundman/telemanom
+Dataset available at: https://www.kaggle.com/datasets/patrickfleith/nasa-anomaly-detection-dataset-smap-msl
 """
 
 import os
@@ -9,6 +10,7 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 import pickle
+import zipfile
 
 
 class NASADataLoader:
@@ -18,40 +20,117 @@ class NASADataLoader:
         self.data_dir = data_dir
         os.makedirs(data_dir, exist_ok=True)
         
-    def download_data(self):
-        """Download NASA SMAP-MSL dataset."""
-        print("Downloading NASA SMAP-MSL dataset...")
+    def download_data_from_kaggle(self):
+        """
+        Download NASA SMAP-MSL dataset from Kaggle.
         
-        # Base URL for the dataset
-        base_url = "https://raw.githubusercontent.com/khundman/telemanom/master/data"
+        Requires:
+        1. pip install kaggle
+        2. Kaggle API credentials in ~/.kaggle/kaggle.json
         
-        files = [
-            'train/P-1.npy',
-            'train/S-1.npy',
-            'train/E-1.npy',
-            'train/M-1.npy',
-            'test/P-1.npy',
-            'test/S-1.npy',
-            'test/E-1.npy',
-            'test/M-1.npy',
-            'labeled_anomalies.csv'
-        ]
+        Get your API key from: https://www.kaggle.com/account
+        """
+        print("Downloading NASA SMAP-MSL dataset from Kaggle...")
         
-        for file_path in files:
-            url = f"{base_url}/{file_path}"
-            local_path = os.path.join(self.data_dir, file_path)
-            os.makedirs(os.path.dirname(local_path), exist_ok=True)
+        try:
+            import subprocess
+            import zipfile
             
-            try:
-                response = requests.get(url, timeout=30)
-                if response.status_code == 200:
-                    with open(local_path, 'wb') as f:
-                        f.write(response.content)
-                    print(f"Downloaded: {file_path}")
-                else:
-                    print(f"Failed to download: {file_path}")
-            except Exception as e:
-                print(f"Error downloading {file_path}: {e}")
+            # Download using Kaggle CLI
+            dataset_name = "patrickfleith/nasa-anomaly-detection-dataset-smap-msl"
+            print(f"Downloading dataset: {dataset_name}")
+            
+            # Download to temp location
+            result = subprocess.run(
+                ['kaggle', 'datasets', 'download', '-d', dataset_name, '-p', self.data_dir],
+                capture_output=True,
+                text=True,
+                timeout=300
+            )
+            
+            if result.returncode != 0:
+                print(f"Error downloading from Kaggle:")
+                print(result.stderr)
+                raise Exception("Kaggle download failed. Please ensure you have Kaggle API credentials set up.")
+            
+            # Unzip the downloaded file
+            zip_path = os.path.join(self.data_dir, 'nasa-anomaly-detection-dataset-smap-msl.zip')
+            if os.path.exists(zip_path):
+                print(f"Extracting {zip_path}...")
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    zip_ref.extractall(self.data_dir)
+                
+                # Reorganize files if needed
+                data_subdir = os.path.join(self.data_dir, 'data')
+                if os.path.exists(data_subdir):
+                    # Move files up one level
+                    import shutil
+                    for item in os.listdir(data_subdir):
+                        src = os.path.join(data_subdir, item)
+                        dst = os.path.join(self.data_dir, item)
+                        if os.path.exists(dst):
+                            if os.path.isdir(dst):
+                                shutil.rmtree(dst)
+                            else:
+                                os.remove(dst)
+                        shutil.move(src, dst)
+                    shutil.rmtree(data_subdir)
+                
+                os.remove(zip_path)
+                print("✓ Dataset downloaded and extracted successfully!")
+            else:
+                raise Exception("Downloaded zip file not found")
+                
+        except Exception as e:
+            print(f"\n✗ Error downloading from Kaggle: {e}")
+            print("\nTo download the NASA SMAP-MSL dataset:")
+            print("1. Install Kaggle CLI: pip install kaggle")
+            print("2. Get your API key from https://www.kaggle.com/account")
+            print("3. Place kaggle.json in ~/.kaggle/kaggle.json")
+            print("4. Run: kaggle datasets download -d patrickfleith/nasa-anomaly-detection-dataset-smap-msl")
+            print("5. Extract to ./data/ directory")
+            raise
+    
+    def download_data(self):
+        """Download NASA SMAP-MSL dataset (legacy method - tries multiple sources)."""
+        print("Attempting to download NASA SMAP-MSL dataset...")
+        
+        # Try Kaggle first (primary source)
+        try:
+            self.download_data_from_kaggle()
+            return
+        except Exception as e:
+            print(f"Kaggle download failed: {e}")
+        
+        # Fallback: Try direct download (may not work)
+        print("\nTrying direct download from GitHub (may not have data files)...")
+        base_url = "https://raw.githubusercontent.com/khundman/telemanom/master"
+        
+        # Download labeled_anomalies.csv at least
+        csv_url = f"{base_url}/labeled_anomalies.csv"
+        csv_path = os.path.join(self.data_dir, 'labeled_anomalies.csv')
+        
+        try:
+            response = requests.get(csv_url, timeout=30)
+            if response.status_code == 200:
+                with open(csv_path, 'wb') as f:
+                    f.write(response.content)
+                print(f"✓ Downloaded: labeled_anomalies.csv")
+            else:
+                print(f"✗ Failed to download labeled_anomalies.csv")
+        except Exception as e:
+            print(f"✗ Error downloading labeled_anomalies.csv: {e}")
+        
+        print("\n" + "="*70)
+        print("⚠ IMPORTANT: Data files not available from direct download")
+        print("="*70)
+        print("Please download the NASA SMAP-MSL dataset manually:")
+        print("1. Go to: https://www.kaggle.com/datasets/patrickfleith/nasa-anomaly-detection-dataset-smap-msl")
+        print("2. Download the dataset")
+        print("3. Extract to ./data/ directory")
+        print("OR use Kaggle CLI:")
+        print("  kaggle datasets download -d patrickfleith/nasa-anomaly-detection-dataset-smap-msl")
+        print("="*70)
     
     def load_data(self, channel='P-1', sequence_length=50):
         """
