@@ -1,0 +1,60 @@
+name: Run QLSTM Experiments on Real NASA Data
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday (optional)
+
+jobs:
+  run-experiments:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install kaggle
+    
+    - name: Download NASA SMAP-MSL Dataset
+      env:
+        KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      run: |
+        python download_real_data.py
+    
+    - name: Run Quick Test on Real Data
+      run: |
+        python quick_test.py
+    
+    - name: Upload Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: experiment-results
+        path: |
+          results/*.json
+          results/plots/*.png
+    
+    - name: Display Results Summary
+      run: |
+        echo "## Experiment Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Results have been saved to artifacts." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f results/lstm_P-1_metrics.json ]; then
+          echo "### LSTM Metrics:" >> $GITHUB_STEP_SUMMARY
+          cat results/lstm_P-1_metrics.json >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        fi
+        if [ -f results/qlstm_P-1_metrics.json ]; then
+          echo "### QLSTM Metrics:" >> $GITHUB_STEP_SUMMARY
+          cat results/qlstm_P-1_metrics.json >> $GITHUB_STEP_SUMMARY
+        fi
