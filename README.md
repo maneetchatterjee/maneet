@@ -2,7 +2,7 @@
 
 This project implements and compares a **Quantum-Inspired LSTM (QLSTM)** with a baseline LSTM on the NASA SMAP-MSL anomaly detection dataset.
 
-## 🎯 Quick Results
+## 🎯 Quick Results (Synthetic Data)
 
 | Metric | Baseline LSTM | QLSTM | Winner |
 |--------|---------------|-------|--------|
@@ -12,6 +12,8 @@ This project implements and compares a **Quantum-Inspired LSTM (QLSTM)** with a 
 | **AUC** | 99.99% | 99.99% | Tie |
 
 **Key Finding:** Both models achieve excellent performance (>95% F1), with classical LSTM slightly outperforming QLSTM by <1%. No quantum advantage demonstrated at current scale (4 qubits).
+
+⚠️ **Note:** These results are on synthetic data. For real NASA SMAP-MSL data (55 channels), see **[Real Data Guide](REAL_DATA_GUIDE.md)** for download instructions. Expected F1: 0.60-0.80 (real data is significantly more challenging).
 
 ## 📋 Overview
 
@@ -35,10 +37,10 @@ cd maneet
 pip install -r requirements.txt
 ```
 
-### Run Experiment
+### Option 1: Synthetic Data (Quick Demo)
 
 ```bash
-# Generate synthetic data (real NASA data download had issues)
+# Generate synthetic NASA-like data
 python generate_synthetic_data.py
 
 # Run full experiment (30 epochs, ~30 minutes)
@@ -48,13 +50,35 @@ python experiment.py
 python quick_test.py
 ```
 
+### Option 2: Real NASA SMAP-MSL Data (Production)
+
+For running on the actual NASA dataset (55 channels, real spacecraft telemetry):
+
+```bash
+# 1. Set up Kaggle API credentials (one-time setup)
+#    See REAL_DATA_GUIDE.md for detailed instructions
+
+# 2. Download real NASA data
+python download_real_data.py
+
+# 3. Run experiments on real data
+python experiment.py    # Will automatically use real data if available
+```
+
+**📖 See [REAL_DATA_GUIDE.md](REAL_DATA_GUIDE.md) for:**
+- Kaggle setup instructions
+- Alternative download methods
+- Expected results on real data (F1: 0.60-0.80)
+- Running on all 55 channels
+- Troubleshooting guide
+
 Results will be saved to:
 - `results/*.json` - Performance metrics
 - `results/plots/*.png` - Visualizations
 
 ## 📊 Results Summary
 
-### Performance Metrics
+### Performance Metrics (Synthetic Data)
 
 **Baseline LSTM:**
 - F1-Score: 96.42% | Precision: 100% | Recall: 93.08% | AUC: 99.99%
@@ -66,26 +90,38 @@ Results will be saved to:
 
 ### Comparison with Literature
 
-| Model | Year | Venue | F1-Score |
-|-------|------|-------|----------|
-| Telemanom (LSTM) | 2018 | KDD | 0.60-0.70 |
-| OmniAnomaly | 2019 | KDD | 0.74 |
-| USAD | 2020 | KDD | 0.76 |
-| GDN | 2021 | AAAI | 0.79 |
-| TranAD | 2022 | VLDB | 0.84 |
-| **Our LSTM** | 2024 | - | **0.9642*** |
-| **Our QLSTM** | 2024 | - | **0.9577*** |
+| Model | Year | Venue | F1-Score | Data Type |
+|-------|------|-------|----------|-----------|
+| Telemanom (LSTM) | 2018 | KDD | 0.60-0.70 | Real NASA |
+| OmniAnomaly | 2019 | KDD | 0.74 | Real NASA |
+| USAD | 2020 | KDD | 0.76 | Real NASA |
+| GDN | 2021 | AAAI | 0.79 | Real NASA |
+| TranAD | 2022 | VLDB | 0.84 | Real NASA |
+| **Our LSTM** | 2024 | - | **0.9642** | **Synthetic** |
+| **Our QLSTM** | 2024 | - | **0.9577** | **Synthetic** |
 
-*Note: Higher scores due to synthetic data; not directly comparable to real NASA SMAP-MSL results.
+⚠️ **Note:** Higher scores due to synthetic data; not directly comparable. For real NASA data experiments, download the dataset using `download_real_data.py` - expected F1: 0.60-0.80.
 
 ## 🔬 Technical Details
 
-### Dataset
-- **Source:** Synthetic NASA-like spacecraft telemetry
+### Dataset Options
+
+**1. Synthetic Data (Current Results):**
+- **Source:** Generated NASA-like spacecraft telemetry
 - **Training:** 7,950 sequences × 25 features
 - **Testing:** 2,950 sequences × 25 features
-- **Anomalies:** ~5% of test data
+- **Anomalies:** ~5% of test data (clear patterns)
 - **Generation:** Trend + seasonality + noise + injected anomalies
+- **Performance:** F1 > 95% (easier than real data)
+
+**2. Real NASA SMAP-MSL Data (Recommended for Production):**
+- **Source:** Actual spacecraft telemetry from SMAP & MSL missions
+- **Channels:** 55 channels (25 SMAP + 27 MSL + 3 others)
+- **Features:** 1-25 per channel (varies)
+- **Anomalies:** 1-5% (subtle, realistic)
+- **Download:** `python download_real_data.py` (requires Kaggle API)
+- **Performance:** Expected F1: 0.60-0.80 (matches published research)
+- **Guide:** See [REAL_DATA_GUIDE.md](REAL_DATA_GUIDE.md)
 
 ### Baseline LSTM Architecture
 ```
@@ -110,11 +146,13 @@ Input (50, 25) → LSTM(80) → Dropout(0.2) → QuantumLSTM(80) → Dropout(0.2
 
 ```
 maneet/
-├── README.md                      # This file
+├── README.md                      # This file - Quick start guide
 ├── RESULTS.md                     # Detailed results and analysis (15+ pages)
-├── SUMMARY.md                     # Executive summary
+├── SUMMARY.md                     # Executive summary (8 pages)
+├── REAL_DATA_GUIDE.md            # Real NASA data guide (6 pages) ⭐NEW
 ├── requirements.txt               # Python dependencies
-├── data_loader.py                 # Data loading and preprocessing
+├── data_loader.py                 # Data loading (supports Kaggle) ⭐UPDATED
+├── download_real_data.py          # Real data downloader ⭐NEW
 ├── generate_synthetic_data.py     # Synthetic data generation
 ├── baseline_lstm.py               # Classical LSTM implementation
 ├── qlstm.py                      # Quantum-inspired LSTM implementation
@@ -134,6 +172,13 @@ maneet/
 
 ## 📚 Documentation
 
+- **[README.md](README.md)** - This file - Quick start and overview
+- **[REAL_DATA_GUIDE.md](REAL_DATA_GUIDE.md)** - **⭐NEW** Complete guide for real NASA data (6 pages)
+  - Three download methods (automated/manual/CLI)
+  - Kaggle setup instructions
+  - Expected results on real data
+  - Troubleshooting guide
+  - All 55 channels processing
 - **[SUMMARY.md](SUMMARY.md)** - Executive summary with key findings (8 pages)
 - **[RESULTS.md](RESULTS.md)** - Comprehensive analysis with literature review (15+ pages)
   - Dataset overview and characteristics
@@ -147,7 +192,7 @@ maneet/
 
 ## 🔑 Key Findings
 
-### What Works
+### What Works (Synthetic Data)
 ✅ **Both models achieve excellent performance** (>95% F1-score)
 ✅ **Near-perfect anomaly discrimination** (>99.9% AUC)
 ✅ **Very low false positive rates** (0-1 false alarms)
@@ -155,20 +200,22 @@ maneet/
 ✅ **Quantum-inspired features integrate successfully** (no training instability)
 
 ### What We Learned
-⚠️  **Classical LSTM slightly outperforms QLSTM** (<1% difference)
+⚠️  **Classical LSTM slightly outperforms QLSTM** (<1% difference on synthetic data)
 ⚠️  **No quantum advantage at small scale** (4 "qubits")
 ⚠️  **True quantum circuits difficult to integrate** (TensorFlow constraints)
-⚠️  **Synthetic data easier than real NASA data** (explains high scores)
+⚠️  **Synthetic data easier than real NASA data** (F1: 0.96 vs expected 0.60-0.80)
+⚠️  **Real data validation needed** (synthetic results not comparable to published work)
 
 ### Implications
-📌 **For Production:** Use classical LSTM (simpler, faster, equally effective)
+📌 **For Production:** Test on real NASA data first - use `download_real_data.py`
 📌 **For Research:** QLSTM shows promise but needs larger quantum circuits (16+ qubits)
 📌 **For Quantum ML:** Hybrid approaches practical, but quantum advantage unproven at this scale
+📌 **Current Status:** Proof of concept on synthetic data; real data tooling ready
 
 ## 🔮 Future Work
 
 ### Immediate
-- [ ] Test on real NASA SMAP-MSL dataset (all 55 channels)
+- [ ] **Test on real NASA SMAP-MSL dataset** (all 55 channels) - **Tools ready!**
 - [ ] Extend training to 30-50 epochs
 - [ ] Ablation studies on quantum component size
 
