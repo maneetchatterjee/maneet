@@ -7,10 +7,12 @@ This repository contains a physically accurate N-body simulation of two spiral g
 ### Features
 
 - **Accurate N-body gravitational dynamics** using direct force calculation with softened potential
-- **Realistic spiral galaxy generation** with bulge and disk components
+- **Realistic spiral galaxy generation** with prominent 3-arm logarithmic spiral structure
+- **Density wave theory** for well-defined spiral arms with concentrated particle distribution
+- **Flat rotation curve** characteristic of spiral galaxies with dark matter halos
 - **Energy-conserving time integration** using the leapfrog (Verlet) integrator
 - **Real-time energy monitoring** to verify numerical accuracy
-- **Animated visualization** showing the collision evolution in 3D
+- **High-resolution animated visualization** showing the collision evolution in 3D
 
 ### Requirements
 
@@ -33,9 +35,9 @@ julia galaxy_collision.jl
 ```
 
 The simulation will:
-1. Generate two spiral galaxies with 500 particles each
-2. Set them on a collision course
-3. Simulate 50 time units of gravitational evolution
+1. Generate two spiral galaxies with 1000 particles each (prominent 3-arm spiral structure)
+2. Set them on an angled collision trajectory with offset impact parameter
+3. Simulate 60 time units of gravitational evolution
 4. Create an animation showing the collision from multiple viewpoints
 5. Save the result as `galaxy_collision.gif`
 
@@ -46,17 +48,25 @@ The simulation implements the following physics:
 - **Gravitational Force**: F = -G·m₁·m₂·r/(r² + ε²)^(3/2)
   - Softening parameter ε prevents numerical singularities
 - **Leapfrog Integration**: Symplectic integrator for excellent energy conservation
-- **Spiral Structure**: Two-arm logarithmic spiral pattern
-- **Differential Rotation**: Velocity profile v(r) ∝ √(r/(r+R)) mimics realistic galaxy rotation curves
+- **Spiral Structure**: Three-arm logarithmic spiral pattern using density wave theory
+  - 75% of disk particles follow spiral arms with tight winding
+  - Logarithmic spiral: θ = θ₀ + 0.3·ln(r/R)
+- **Flat Rotation Curve**: v(r) = constant beyond core radius (mimics dark matter halo)
+  - Solid body rotation in core region (r < 0.3R)
+  - Flat/slowly rising beyond core (characteristic of spiral galaxies)
+- **Velocity Dispersion**: Radially decreasing dispersion (hotter in center)
 
 ### Simulation Parameters
 
-- **N_particles**: 500 per galaxy
+- **N_particles**: 1000 per galaxy (2000 total)
 - **Galaxy radius**: 1.0 (normalized units)
-- **Rotational velocity**: 0.5 (normalized units)
-- **Time step**: 0.05
-- **Total time**: 50.0
+- **Rotational velocity**: 0.6 (normalized units)
+- **Time step**: 0.04
+- **Total time**: 60.0
 - **Softening length**: 0.1
+- **Spiral arms**: 3 arms per galaxy
+- **Bulge fraction**: 15% of particles
+- **Disk thickness**: 0.03R (very thin, realistic disk)
 
 ### Performance
 

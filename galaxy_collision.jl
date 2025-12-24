@@ -36,7 +36,8 @@ end
 """
     create_spiral_galaxy(N, R, v_rotation, center, velocity_offset)
 
-Create a spiral galaxy with N particles distributed in a disk with spiral arms.
+Create a spiral galaxy with N particles distributed in a disk with prominent spiral arms.
+Uses density wave theory to create realistic spiral structure.
 
 Parameters:
 - N: Number of particles
@@ -51,55 +52,82 @@ function create_spiral_galaxy(N::Int, R::Float64, v_rotation::Float64,
     velocities = zeros(N, 3)
     masses = ones(N) / N  # Equal mass particles, total mass = 1
     
-    # Create central bulge (20% of particles)
-    N_bulge = Int(floor(0.2 * N))
+    # Create central bulge (15% of particles) - smaller for more disk-dominated galaxy
+    N_bulge = Int(floor(0.15 * N))
     for i in 1:N_bulge
-        # Spherical distribution for bulge
-        r = R * 0.3 * rand()^(1/3)  # Uniform in volume
+        # Compact spherical bulge
+        r = R * 0.2 * rand()^(1/3)  # Uniform in volume, smaller radius
         θ = acos(2 * rand() - 1)
         φ = 2π * rand()
         
         positions[i, 1] = r * sin(θ) * cos(φ) + center[1]
         positions[i, 2] = r * sin(θ) * sin(φ) + center[2]
-        positions[i, 3] = r * cos(θ) * 0.2 + center[3]  # Flattened
+        positions[i, 3] = r * cos(θ) * 0.15 + center[3]  # More flattened
         
         # Random velocities for bulge (velocity dispersion)
-        velocities[i, :] = velocity_offset + 0.3 * v_rotation * randn(3)
+        velocities[i, :] = velocity_offset + 0.2 * v_rotation * randn(3)
     end
     
-    # Create disk with spiral arms (80% of particles)
+    # Create disk with prominent spiral arms (85% of particles)
+    N_disk = N - N_bulge
+    # Use 3 spiral arms for more realistic appearance
+    n_arms = 3
+    
     for i in (N_bulge+1):N
-        # Exponential disk profile with truncation
-        # Use 0.95 factor to avoid log(0) and ensure particles stay within reasonable bounds
-        r = -R * log(1 - rand() * 0.95)  # Exponential distribution, truncated to avoid extreme values
-        r = min(r, 3 * R)  # Hard truncation at 3R for galaxy edge
+        # Exponential disk profile with concentration toward center
+        r = -R * 0.6 * log(1 - rand() * 0.95)  # Steeper exponential for concentration
+        r = min(r, 2.5 * R)  # Truncate at 2.5R for more compact galaxy
         
-        # Add spiral structure (2 arms)
-        arm = rand() < 0.5 ? 1 : -1
-        θ = rand() * 2π
-        spiral_angle = 2.0  # Tightness of spiral
-        θ_spiral = θ + arm * spiral_angle * log(1 + r / R)
-        
-        # Add some random scatter
-        θ_spiral += 0.3 * randn()
+        # Assign particle to a spiral arm with higher probability
+        # This creates more defined spiral structure
+        arm_preference = rand()
+        if arm_preference < 0.75  # 75% of particles follow spiral arms closely
+            # Choose arm
+            arm_number = rand(0:n_arms-1)
+            base_angle = 2π * arm_number / n_arms
+            
+            # Logarithmic spiral: θ = θ₀ + b * ln(r/R)
+            # b controls tightness (smaller = tighter spiral)
+            spiral_tightness = 0.3  # Tight, well-defined spiral
+            θ_spiral = base_angle + spiral_tightness * log(max(r / R, 0.1))
+            
+            # Small scatter along the arm
+            θ_spiral += 0.15 * randn()  # Reduced scatter for more defined arms
+            
+            # Add slight radial perturbation to create arm width
+            r_perturbation = 0.1 * R * randn()
+            r_actual = max(0.1, r + r_perturbation)
+        else  # 25% inter-arm particles
+            # Particles between arms
+            θ_spiral = rand() * 2π
+            r_actual = r
+        end
         
         # Position in disk
-        x = r * cos(θ_spiral)
-        y = r * sin(θ_spiral)
-        z = 0.05 * R * randn()  # Thin disk with small thickness
+        x = r_actual * cos(θ_spiral)
+        y = r_actual * sin(θ_spiral)
+        z = 0.03 * R * randn()  # Very thin disk for realistic appearance
         
         positions[i, 1] = x + center[1]
         positions[i, 2] = y + center[2]
         positions[i, 3] = z + center[3]
         
-        # Circular velocity with some dispersion
-        # v_circ ∝ sqrt(M(<r)/r) for Keplerian rotation
-        v_circ = v_rotation * sqrt(r / (r + R))  # Modified for extended mass distribution
+        # Flat rotation curve (characteristic of spiral galaxies with dark matter)
+        # v_circ = constant beyond core radius
+        r_core = 0.3 * R  # Core radius
+        if r_actual < r_core
+            v_circ = v_rotation * (r_actual / r_core)  # Solid body rotation in core
+        else
+            v_circ = v_rotation * (1.0 + 0.1 * log(r_actual / r_core))  # Slightly rising, then flat
+        end
+        
+        # Add small velocity dispersion (decreases with radius - hotter in center)
+        dispersion = v_rotation * 0.1 * exp(-r_actual / R)
         
         # Velocity perpendicular to radius (circular motion)
-        vx = -v_circ * sin(θ_spiral)
-        vy = v_circ * cos(θ_spiral)
-        vz = 0.02 * v_rotation * randn()  # Small vertical motion
+        vx = -v_circ * sin(θ_spiral) + dispersion * randn()
+        vy = v_circ * cos(θ_spiral) + dispersion * randn()
+        vz = 0.01 * v_rotation * randn()  # Minimal vertical motion
         
         velocities[i, 1] = vx + velocity_offset[1]
         velocities[i, 2] = vy + velocity_offset[2]
@@ -297,12 +325,12 @@ function run_simulation()
     println("=" ^ 60)
     
     # Simulation parameters
-    N_particles = 500  # Particles per galaxy (reduced for performance)
-    R = 1.0            # Galaxy radius
-    v_rotation = 0.5   # Rotational velocity
-    dt = 0.05          # Time step
-    t_end = 50.0       # End time
-    save_interval = 5  # Save every N steps
+    N_particles = 1000  # Increased particles for better spiral definition
+    R = 1.0             # Galaxy radius
+    v_rotation = 0.6    # Increased rotational velocity for more dramatic dynamics
+    dt = 0.04           # Smaller time step for better accuracy with more particles
+    t_end = 60.0        # Longer simulation time to see full interaction
+    save_interval = 6   # Save every N steps (maintains similar frame count)
     
     println("\nSimulation Parameters:")
     println("  Particles per galaxy: $N_particles")
@@ -315,14 +343,14 @@ function run_simulation()
     # Initialize two galaxies
     println("\nInitializing galaxies...")
     
-    # Galaxy 1: approaching from left
-    center1 = [-4.0, 0.0, 0.0]
-    velocity1 = [0.3, 0.2, 0.05]  # Moving to the right and slightly up
+    # Galaxy 1: approaching from left with slight upward trajectory
+    center1 = [-5.0, -0.5, 0.0]
+    velocity1 = [0.35, 0.15, 0.02]  # Angled approach for more interesting interaction
     galaxy1 = create_spiral_galaxy(N_particles, R, v_rotation, center1, velocity1)
     
-    # Galaxy 2: approaching from right
-    center2 = [4.0, 0.0, 0.0]
-    velocity2 = [-0.3, -0.2, -0.05]  # Moving to the left and slightly down
+    # Galaxy 2: approaching from right with slight downward trajectory
+    center2 = [5.0, 0.5, 0.0]
+    velocity2 = [-0.35, -0.15, -0.02]  # Mirror trajectory
     galaxy2 = create_spiral_galaxy(N_particles, R, v_rotation, center2, velocity2)
     
     # Initialize acceleration arrays
@@ -411,17 +439,17 @@ function create_animation(frames, times, energies, E0)
         # Create subplot layout
         l = @layout [a{0.7w} b{0.3w}]
         
-        # Main 3D plot
+        # Main 3D plot with better spiral visualization
         p1 = scatter(pos1[:, 1], pos1[:, 2], pos1[:, 3],
-                    markersize=1.5, markercolor=:cyan, markeralpha=0.6,
+                    markersize=1.2, markercolor=:cyan, markeralpha=0.7,
                     label="Galaxy 1", legend=:topright,
-                    camera=(30, 30), xlims=(-8, 8), ylims=(-8, 8), zlims=(-4, 4),
+                    camera=(30, 30), xlims=(-10, 10), ylims=(-10, 10), zlims=(-3, 3),
                     xlabel="X", ylabel="Y", zlabel="Z",
-                    title="Galaxy Collision (t = $(@sprintf("%.2f", times[i])))",
-                    titlefontsize=12)
+                    title="Spiral Galaxy Collision (t = $(@sprintf("%.2f", times[i])))",
+                    titlefontsize=12, background_color=:black)
         
         scatter!(p1, pos2[:, 1], pos2[:, 2], pos2[:, 3],
-                markersize=1.5, markercolor=:orange, markeralpha=0.6,
+                markersize=1.2, markercolor=:yellow, markeralpha=0.7,
                 label="Galaxy 2")
         
         # Energy conservation plot
@@ -431,7 +459,7 @@ function create_animation(frames, times, energies, E0)
                  xlabel="Time", ylabel="Energy Drift (%)",
                  title="Energy Conservation",
                  titlefontsize=10, legend=:bottomright,
-                 grid=true, ylims=(-5, 5))
+                 grid=true, ylims=(-5, 5), background_color=:black)
         
         plot(p1, p2, layout=l)
     end
