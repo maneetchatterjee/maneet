@@ -2,6 +2,18 @@
 
 A comprehensive 3D F1 car design with Computational Fluid Dynamics (CFD) flow simulation and realistic animation visualization.
 
+![F1 Car 3D Model](https://github.com/user-attachments/assets/c4e7647f-5817-4dc9-b1de-547f87215b08)
+*3D F1 Car Model with aerodynamic components*
+
+## Visual Examples
+
+<table>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/55013ed5-569b-419d-b88a-ef68600b05fd" width="400"/><br/><b>Pressure Field Distribution</b></td>
+<td><img src="https://github.com/user-attachments/assets/5459a123-b070-4aa6-b307-a449339cea70" width="400"/><br/><b>Velocity Field with Flow Vectors</b></td>
+</tr>
+</table>
+
 ## Features
 
 - **3D F1 Car Model**: Detailed geometric model including:
