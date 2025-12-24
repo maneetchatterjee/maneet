@@ -6,7 +6,11 @@ Provides interface for robot control and scene management.
 """
 
 import pybullet as p
-import pybullet_data
+try:
+    import pybullet_data
+    HAS_PYBULLET_DATA = True
+except ImportError:
+    HAS_PYBULLET_DATA = False
 import numpy as np
 from typing import List, Tuple, Optional, Dict
 import time
@@ -40,7 +44,8 @@ class SimulationEnvironment:
         else:
             self.client = p.connect(p.DIRECT)
         
-        p.setAdditionalSearchPath(pybullet_data.getDataPath())
+        if HAS_PYBULLET_DATA:
+            p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0, 0, -9.81)
         p.setTimeStep(time_step)
         

@@ -11,7 +11,7 @@ setup(
     install_requires=[
         "numpy>=1.21.0",
         "pybullet>=3.2.5",
-        "opencv-python>=4.5.0",
+        "opencv-python-headless>=4.5.0",
         "pillow>=9.0.0",
         "scipy>=1.7.0",
         "matplotlib>=3.5.0",
