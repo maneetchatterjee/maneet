@@ -3,6 +3,7 @@
 This repository is currently a placeholder. Designing a detailed 3D F1 car and running a CFD flow simulation with animation requires heavy geometry assets and specialized solvers that cannot be shipped or executed in this lightweight environment. Use the steps below to create the model, run the simulation, and produce the animation on your workstation or cloud CFD service.
 
 ## Recommended workflow
+Notation: this guide uses ASCII-friendly `k-omega` for turbulence model names to keep the text portable across editors.
 1. **Model the car**
    - Create the geometry in Blender or FreeCAD.
    - Export to `assets/F1_car.stl` (or STEP/OBJ).
@@ -10,7 +11,7 @@ This repository is currently a placeholder. Designing a detailed 3D F1 car and r
 2. **Mesh and simulate (OpenFOAM example)**
    - Create an OpenFOAM case under `simulation/case/`.
    - Use `snappyHexMesh` (or cfMesh) to generate the mesh around `assets/F1_car.stl`.
-   - Run a steady-state `simpleFoam` (or transient `pisoFoam`) case with suitable inlet velocity, turbulence model (e.g., k-ω SST), and outlet/ground/wall boundary conditions.
+   - Run a steady-state `simpleFoam` (or transient `pisoFoam`) case with suitable inlet velocity, turbulence model (e.g., k-omega SST), and outlet/ground/wall boundary conditions.
 
 3. **Post-process and animate**
    - Open results in ParaView.
@@ -31,3 +32,4 @@ output/
 ## Notes
 - No CAD or simulation assets are included; add your own geometry and OpenFOAM case files following the layout above.
 - Running CFD locally requires OpenFOAM (or another solver) plus ParaView for visualization; online services like SimScale can also be used to avoid local setup.
+- Recommended versions: OpenFOAM v10+ and ParaView 5.12+ (other versions may work with minor adjustments).
