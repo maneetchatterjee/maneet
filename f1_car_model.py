@@ -42,7 +42,6 @@ class F1CarModel:
     def _create_body(self):
         """Create main body/monocoque"""
         # Main cockpit section
-        center = [0, 0, 0.3 * self.scale]
         body = pv.Box(bounds=[
             -0.5 * self.scale, 1.5 * self.scale,  # x
             -0.4 * self.scale, 0.4 * self.scale,  # y
