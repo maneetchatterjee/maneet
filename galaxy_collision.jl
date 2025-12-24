@@ -69,9 +69,10 @@ function create_spiral_galaxy(N::Int, R::Float64, v_rotation::Float64,
     
     # Create disk with spiral arms (80% of particles)
     for i in (N_bulge+1):N
-        # Exponential disk profile
-        r = -R * log(1 - rand() * 0.95)  # Exponential distribution
-        r = min(r, 3 * R)  # Truncate at 3R
+        # Exponential disk profile with truncation
+        # Use 0.95 factor to avoid log(0) and ensure particles stay within reasonable bounds
+        r = -R * log(1 - rand() * 0.95)  # Exponential distribution, truncated to avoid extreme values
+        r = min(r, 3 * R)  # Hard truncation at 3R for galaxy edge
         
         # Add spiral structure (2 arms)
         arm = rand() < 0.5 ? 1 : -1
@@ -339,7 +340,7 @@ function run_simulation()
     println("\nRunning simulation...")
     t = 0.0
     step = 0
-    frames = []
+    frames = Tuple{Matrix{Float64}, Matrix{Float64}}[]  # Typed array for performance
     times = Float64[]
     energies = Float64[]
     
