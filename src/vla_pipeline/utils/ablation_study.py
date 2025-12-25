@@ -22,6 +22,7 @@ import json
 from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass
 import itertools
+from scipy import stats
 
 
 @dataclass
@@ -204,7 +205,6 @@ class ModuleNecessityTest:
         
         # Approximate p-value (two-tailed t-test)
         df = n_with + n_without - 2
-        from scipy import stats
         p_value = 2 * (1 - stats.t.cdf(abs(t_stat), df))
         
         # Cohen's d effect size
