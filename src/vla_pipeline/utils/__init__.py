@@ -12,6 +12,13 @@ from .ablation_study import (
     RedundancyAnalysis,
     ShapleyValueAttribution
 )
+from .reproducibility import (
+    DeterministicSeeding,
+    EnvironmentValidator,
+    OutputComparator,
+    VarianceAnalyzer,
+    ReproducibilityAudit
+)
 
 __all__ = [
     "MetricsLogger", 
@@ -28,5 +35,10 @@ __all__ = [
     "CausalGraphAnalysis",
     "SensitivityAnalysis",
     "RedundancyAnalysis",
-    "ShapleyValueAttribution"
+    "ShapleyValueAttribution",
+    "DeterministicSeeding",
+    "EnvironmentValidator",
+    "OutputComparator",
+    "VarianceAnalyzer",
+    "ReproducibilityAudit"
 ]
