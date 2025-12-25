@@ -7,9 +7,22 @@ from .planner import (
     MotionPhase
 )
 
+from .symbolic_planner import (
+    StateBasedPlanner,
+    WorldState,
+    Action,
+    Predicate,
+    PredicateType
+)
+
 __all__ = [
     "PlanningModule",
     "SymbolicAction",
     "Waypoint",
-    "MotionPhase"
+    "MotionPhase",
+    "StateBasedPlanner",
+    "WorldState",
+    "Action",
+    "Predicate",
+    "PredicateType"
 ]
