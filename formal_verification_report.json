@@ -1,0 +1,300 @@
+{
+  "title": "Formal Verification of Language \u2192 Action Semantics",
+  "date": "2025-12-25",
+  "grammar": {
+    "type": "Context-Free Grammar (CFG)",
+    "bnf_notation": "<command> ::= <simple_command> | <compound_command>\n<simple_command> ::= <action> <object_phrase> [<location_phrase>]\n<compound_command> ::= <simple_command> <conjunction> <simple_command>\n<action> ::= \"pick\" | \"grab\" | \"grasp\" | \"place\" | \"put\" | \"move\" | ...\n<object_phrase> ::= [<article>] [<size>] [<color>] <shape>\n<location_phrase> ::= <spatial_relation> <object_phrase>\n<spatial_relation> ::= \"left of\" | \"right of\" | \"on\" | \"above\" | ...\n<article> ::= \"the\" | \"a\" | \"an\"\n<size> ::= \"small\" | \"medium\" | \"large\"\n<color> ::= \"red\" | \"blue\" | \"green\" | \"yellow\" | ...\n<shape> ::= \"cube\" | \"sphere\" | \"cylinder\" | ...\n<conjunction> ::= \"and\" | \"then\" | \"after that\"",
+    "terminals": {
+      "actions": 15,
+      "colors": 12,
+      "shapes": 9,
+      "spatial_relations": 11,
+      "total": 51
+    },
+    "non_terminals": 11,
+    "production_rules": 23
+  },
+  "semantics": {
+    "type": "Compositional Denotational Semantics",
+    "semantic_domain": "D = Goals \u00d7 Objects \u00d7 Relations \u00d7 Constraints",
+    "denotation_function": "\u27e6\u00b7\u27e7: Command \u2192 D",
+    "examples": {
+      "\u27e6pick\u27e7": "GoalType.PICK",
+      "\u27e6red cube\u27e7": "ObjectDescriptor(color='red', shape='cube')",
+      "\u27e6left of\u27e7": "RelationType.LEFT_OF",
+      "\u27e6pick the red cube\u27e7": "SemanticProgram(goal=PICK, object={color:red, shape:cube})"
+    },
+    "compositionality": "\u27e6A and B\u27e7 = \u27e6A\u27e7 \u222a \u27e6B\u27e7 (sequential composition)"
+  },
+  "correctness_proofs": {
+    "completeness": {
+      "property": "\u2200 valid_cmd \u2208 Language(G), \u2203 parse \u2208 Parse(cmd)",
+      "proof_sketch": "By structural induction on grammar rules. Base case: terminals map directly. Inductive case: composite rules preserve parsing.",
+      "empirical_validation": {
+        "test_commands": 100,
+        "successfully_parsed": 92,
+        "completeness_rate": 0.92,
+        "failed_examples": [
+          "Commands with unsupported spatial relations (inside, through)",
+          "Commands with pronouns (it, that)",
+          "Commands with negation (do not pick)"
+        ]
+      }
+    },
+    "soundness": {
+      "property": "\u2200 parse \u2208 Parse(cmd), is_semantically_valid(parse) = True",
+      "proof_sketch": "Parser only generates from valid production rules. Type system ensures well-formed semantic programs.",
+      "empirical_validation": {
+        "test_programs": 92,
+        "valid_programs": 92,
+        "soundness_rate": 1.0,
+        "validation_checks": [
+          "Goal is specified",
+          "Object has at least one property",
+          "Relations consistent with goals"
+        ]
+      }
+    },
+    "determinism": {
+      "property": "\u2200 cmd, Parse(cmd, t1) = Parse(cmd, t2) for all times t1, t2",
+      "proof_sketch": "Parser is deterministic (no randomness). Rule application is unambiguous.",
+      "empirical_validation": {
+        "test_commands": 50,
+        "deterministic": 50,
+        "determinism_rate": 1.0,
+        "note": "Same command produces identical parse on multiple runs"
+      }
+    },
+    "ambiguity_detection": {
+      "property": "Ambiguous commands are flagged, not silently executed",
+      "mechanism": "Multiple objects of same type without clear reference detected",
+      "empirical_validation": {
+        "test_commands": 50,
+        "unambiguous": 45,
+        "ambiguous_detected": 5,
+        "ambiguity_rate": 0.1,
+        "examples": [
+          "Pick the red cube and place it on the red cube (ambiguous reference)",
+          "Move the cube to the cube (ambiguous objects)"
+        ]
+      }
+    }
+  },
+  "coverage_analysis": {
+    "spatial_relations": {
+      "total_theoretically_possible": 20,
+      "currently_supported": 11,
+      "coverage_percentage": 55.0,
+      "supported": [
+        "left_of",
+        "right_of",
+        "in_front_of",
+        "behind",
+        "on",
+        "above",
+        "below",
+        "next_to",
+        "near",
+        "far_from",
+        "between"
+      ],
+      "not_supported": [
+        {
+          "relation": "inside",
+          "reason": "Requires 3D containment reasoning"
+        },
+        {
+          "relation": "outside",
+          "reason": "Requires 3D containment reasoning"
+        },
+        {
+          "relation": "around",
+          "reason": "Requires circular/surrounding topology"
+        },
+        {
+          "relation": "through",
+          "reason": "Requires path planning"
+        },
+        {
+          "relation": "across",
+          "reason": "Requires path planning"
+        },
+        {
+          "relation": "along",
+          "reason": "Requires trajectory specification"
+        },
+        {
+          "relation": "against",
+          "reason": "Requires contact reasoning"
+        },
+        {
+          "relation": "touching",
+          "reason": "Requires contact reasoning"
+        },
+        {
+          "relation": "separate_from",
+          "reason": "Requires negative constraints"
+        }
+      ]
+    },
+    "linguistic_constructs": {
+      "supported": {
+        "simple_imperatives": true,
+        "compound_commands_and": true,
+        "compound_commands_then": true,
+        "object_properties": true,
+        "spatial_relations": true,
+        "definite_articles": true
+      },
+      "not_supported": {
+        "negation": "No 'do not pick' constructs",
+        "conditionals": "No if-then",
+        "quantifiers": "No 'all', 'some', 'every'",
+        "relative_clauses": "No 'the cube that is red'",
+        "questions": "No interrogatives",
+        "pronouns": "No anaphora resolution",
+        "temporal": "No 'after 5 seconds'",
+        "modal_verbs": "No 'should', 'must'",
+        "comparatives": "No 'bigger than'",
+        "counting": "No 'two cubes'"
+      },
+      "support_rate": 0.375
+    }
+  },
+  "adversarial_testing": {
+    "test_cases": 15,
+    "correctly_rejected": 13,
+    "incorrectly_accepted": 2,
+    "rejection_rate": 0.867,
+    "failure_modes": {
+      "ambiguous_object": 2,
+      "underspecified": 3,
+      "invalid_action": 1,
+      "logical_contradiction": 1,
+      "complex_nesting": 1,
+      "unsupported_constructs": 4,
+      "typo": 1,
+      "mixed_language": 1,
+      "complex_syntax": 1
+    },
+    "examples": [
+      {
+        "input": "Pick the red cube and place it on the red cube",
+        "expected": "reject (ambiguous)",
+        "actual": "accepted",
+        "status": "FALSE POSITIVE - DANGEROUS"
+      },
+      {
+        "input": "Do not pick the red cube",
+        "expected": "reject (negation unsupported)",
+        "actual": "rejected",
+        "status": "correct"
+      },
+      {
+        "input": "Pick all the cubes",
+        "expected": "reject (quantifier unsupported)",
+        "actual": "rejected",
+        "status": "correct"
+      }
+    ]
+  },
+  "semantic_equivalence": {
+    "paraphrase_pairs_tested": 5,
+    "equivalent": 5,
+    "equivalence_rate": 1.0,
+    "examples": [
+      {
+        "pair": [
+          "Pick the red cube",
+          "Grab the red cube"
+        ],
+        "equivalent": true,
+        "reason": "Action synonyms map to same GoalType.PICK"
+      },
+      {
+        "pair": [
+          "Place on the table",
+          "Put on the table"
+        ],
+        "equivalent": true,
+        "reason": "Action synonyms map to same GoalType.PLACE"
+      }
+    ]
+  },
+  "confusion_matrix": {
+    "spatial_relations": {
+      "left_of": {
+        "left_of": 2,
+        "none": 0
+      },
+      "right_of": {
+        "right_of": 1,
+        "none": 0
+      },
+      "on": {
+        "on": 2,
+        "none": 0
+      },
+      "above": {
+        "above": 1,
+        "none": 0
+      },
+      "next_to": {
+        "next_to": 2,
+        "none": 0
+      }
+    },
+    "accuracy": 1.0,
+    "note": "Perfect classification for tested relations"
+  },
+  "limitations": {
+    "false_positives": [
+      "Ambiguous references not always detected",
+      "Circular dependencies (place X on X) may be accepted"
+    ],
+    "coverage_gaps": [
+      "Only 55% of spatial relations supported",
+      "Only 37.5% of linguistic constructs supported",
+      "No negation, quantifiers, or complex syntax"
+    ],
+    "scalability": [
+      "Rule-based approach limits expressiveness",
+      "Manual rules required for new constructs",
+      "No learning from examples"
+    ],
+    "robustness": [
+      "No typo correction",
+      "No multilingual support",
+      "Brittle to paraphrasing beyond synonyms"
+    ]
+  },
+  "formal_guarantees": {
+    "guaranteed": [
+      "Deterministic parsing (same input \u2192 same output)",
+      "Type-safe semantic programs",
+      "Valid action sequences only",
+      "Compositionality preserved"
+    ],
+    "not_guaranteed": [
+      "Executability (may plan impossible actions)",
+      "Optimality (may generate suboptimal plans)",
+      "Completeness (some valid commands unparseable)",
+      "Semantic correctness (may misinterpret intent)"
+    ]
+  },
+  "claim_verification": {
+    "claim": "Compositional semantic parser producing executable programs",
+    "verdict": "PARTIALLY VERIFIED",
+    "evidence": {
+      "compositional": "Yes - nested commands compose correctly",
+      "semantic": "Yes - structured program representation",
+      "executable": "Mostly - 92% parse rate, but executability not fully verified"
+    },
+    "caveats": [
+      "Not all valid commands supported (8% failure rate)",
+      "Ambiguity detection incomplete (2/15 false positives)",
+      "Limited linguistic coverage (37.5% support rate)",
+      "Execution success depends on downstream modules"
+    ]
+  }
+}
