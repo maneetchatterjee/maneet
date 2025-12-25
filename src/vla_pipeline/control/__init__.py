@@ -6,11 +6,34 @@ from .enhanced_kinematics import (
     TrajectoryExecutor as EnhancedTrajectoryExecutor,
     IKMetrics
 )
+from .formal_verification import (
+    ComprehensiveIKVerification,
+    MathematicalDerivation,
+    StabilityAnalysis,
+    DampingCoefficientJustification,
+    JointLimitEnforcementProof,
+    RandomizedWorkspaceTests,
+    SingularConfigurationTests,
+    BaselineComparison,
+    IKVerificationResult,
+    export_verification_report
+)
 
 __all__ = [
     "KinematicsController", 
     "TrajectoryExecutor",
     "EnhancedKinematicsController",
     "EnhancedTrajectoryExecutor",
-    "IKMetrics"
+    "IKMetrics",
+    # Verification framework
+    "ComprehensiveIKVerification",
+    "MathematicalDerivation",
+    "StabilityAnalysis",
+    "DampingCoefficientJustification",
+    "JointLimitEnforcementProof",
+    "RandomizedWorkspaceTests",
+    "SingularConfigurationTests",
+    "BaselineComparison",
+    "IKVerificationResult",
+    "export_verification_report"
 ]
