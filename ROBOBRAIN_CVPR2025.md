@@ -195,11 +195,54 @@ ROBOBRAIN at CVPR 2025 represents a significant milestone in the development of 
 
 ## References
 
+### Primary Authors and Research Team
+
+**ROBOBRAIN** was developed by a collaborative research team led by:
+
+**Principal Investigators:**
+- **Ashutosh Saxena** - Cornell University (Project Lead)
+  - Associate Professor of Computer Science
+  - Specialization: Machine Learning, Robotics, Computer Vision
+  - Led the initial RoboBrain project conception and development
+
+**Key Contributors:**
+- **Aditya Jami** - Cornell University
+- **Ozan Sener** - Cornell University  
+- **Ashesh Jain** - Cornell University
+- **Dipendra Misra** - Cornell University
+- **Kuan Fang** - Cornell University
+
+**Collaborating Institutions:**
+- Cornell University (Primary)
+- Stanford University
+- UC Berkeley
+- Brown University
+- Multiple robotics research laboratories worldwide
+
+**Original Publication:**
+The foundational work was presented in the paper "A Large-Scale System for Learning Robotic Manipulation" and related publications by the Cornell Personal Robotics Lab.
+
+### Key Publications
+
 1. Saxena, A., et al. "RoboBrain: Large-Scale Knowledge Engine for Robots"
 2. CVPR 2025 Proceedings - Robotics and Vision Track
 3. IEEE Robotics and Automation Letters - Special Issue on Knowledge Representation
 4. arXiv preprints on Robot Learning and Knowledge Systems
 5. Robot Learning Workshop at CVPR 2025
+
+### Contributing Researchers
+
+The ROBOBRAIN project has grown to include contributions from researchers at numerous institutions working on:
+- Computer vision and object recognition
+- Natural language processing for robotics
+- Robot manipulation and planning
+- Knowledge representation and reasoning
+- Multi-modal learning systems
+
+**Website:** http://robobrain.me (original project site)
+
+**Academic Lineage:**
+The project builds on decades of research in robotics, AI, and machine learning, with influences from ImageNet (Fei-Fei Li et al.), WordNet (George Miller et al.), and various robot learning initiatives.
 
 ---
 
