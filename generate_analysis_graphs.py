@@ -64,6 +64,7 @@ def generate_task_performance():
     ax.axvline(x=80, color='red', linestyle='--', alpha=0.5, label='Target: 80%')
     ax.legend()
     ax.grid(axis='x', alpha=0.3)
+    plt.tight_layout()
     
     return fig
 
@@ -205,8 +206,13 @@ def generate_roi_projection():
                      color='#e74c3c', alpha=0.3, label='Investment')
     
     # Mark break-even point
-    breakeven_month = np.argmax(cumulative_roi >= 0)
-    ax.plot(breakeven_month, 0, 'r*', markersize=20, label=f'Break-even: Month {breakeven_month}')
+    breakeven_indices = np.where(cumulative_roi >= 0)[0]
+    if len(breakeven_indices) > 0:
+        breakeven_month = breakeven_indices[0]
+        ax.plot(breakeven_month, 0, 'r*', markersize=20, label=f'Break-even: Month {breakeven_month}')
+    else:
+        ax.text(18, -0.5, 'Break-even not reached in projection', ha='center', 
+                fontsize=10, color='red', fontweight='bold')
     
     ax.set_xlabel('Months', fontsize=12, fontweight='bold')
     ax.set_ylabel('ROI ($M)', fontsize=12, fontweight='bold')
