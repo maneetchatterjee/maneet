@@ -15,6 +15,16 @@ from .symbolic_planner import (
     PredicateType
 )
 
+from .formal_verification import (
+    SoundnessProof,
+    CompletenessProof,
+    ComplexityAnalysis,
+    FailureInducingWorlds,
+    ReplanningTerminationProof,
+    BaselineComparison,
+    run_comprehensive_verification
+)
+
 __all__ = [
     "PlanningModule",
     "SymbolicAction",
@@ -24,5 +34,12 @@ __all__ = [
     "WorldState",
     "Action",
     "Predicate",
-    "PredicateType"
+    "PredicateType",
+    "SoundnessProof",
+    "CompletenessProof",
+    "ComplexityAnalysis",
+    "FailureInducingWorlds",
+    "ReplanningTerminationProof",
+    "BaselineComparison",
+    "run_comprehensive_verification"
 ]
