@@ -2,6 +2,19 @@
 
 This demo showcases a PyBullet simulation of a Franka Panda robotic arm performing pick and place tasks.
 
+## Demo Videos
+
+### Animated Demo
+
+![Franka Panda Demo](panda_demo.gif)
+
+The GIF above shows the complete simulation with three tasks:
+1. Pick red cube and move it left
+2. Pick blue cube and move it right  
+3. Stack red cube on top of blue cube
+
+**Video file:** [panda_demo.mp4](panda_demo.mp4) - Higher quality MP4 video
+
 ## Overview
 
 The `demo_franka_panda_pick_place.py` script demonstrates:
@@ -177,6 +190,29 @@ for _ in range(120):  # Faster (0.5 seconds)
 - Simulation rate: 240 Hz
 - Real-time factor: ~1.0x (depends on hardware)
 - Typical pick-place time: 8-10 seconds
+
+## Recording Simulations
+
+To create your own video/GIF recordings of the simulation:
+
+```bash
+python demo/record_panda_demo.py
+```
+
+This will generate:
+- `demo/panda_demo.mp4` - MP4 video (higher quality)
+- `demo/panda_demo.gif` - Animated GIF (for easy sharing)
+
+The recorder captures the simulation at 30 FPS and includes:
+- Initialization and object placement
+- Three pick-and-place tasks
+- Final stacking demonstration
+
+You can customize the recorder script to:
+- Change camera angle and distance
+- Adjust video resolution
+- Modify frame rate
+- Add custom tasks
 
 ## Future Enhancements
 
