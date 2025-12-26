@@ -114,11 +114,11 @@ class SimulationEnvironment:
         try:
             # First try Franka Panda (best option)
             robot_id = p.loadURDF("franka_panda/panda.urdf", base_position, base_orientation, useFixedBase=True)
-        except (FileNotFoundError, p.error, Exception):
+        except (FileNotFoundError, RuntimeError, OSError, Exception):
             try:
                 # Fall back to Kuka arm
                 robot_id = p.loadURDF("kuka_iiwa/model.urdf", base_position, base_orientation, useFixedBase=True)
-            except (FileNotFoundError, p.error, Exception):
+            except (FileNotFoundError, RuntimeError, OSError, Exception):
                 # Create simple arm from primitives
                 robot_id = self._create_primitive_arm()
         
