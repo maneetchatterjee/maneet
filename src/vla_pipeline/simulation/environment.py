@@ -111,6 +111,8 @@ class SimulationEnvironment:
         base_orientation = [0, 0, 0, 1]
         
         # Try to load robots in order of preference: Panda > Kuka > Primitive
+        # Note: Using broad Exception catch intentionally for robustness -
+        # we want to gracefully fall back regardless of the specific URDF loading error
         try:
             # First try Franka Panda (best option)
             robot_id = p.loadURDF("franka_panda/panda.urdf", base_position, base_orientation, useFixedBase=True)

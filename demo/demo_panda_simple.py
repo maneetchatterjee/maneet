@@ -17,7 +17,7 @@ def main():
     print("Starting Franka Panda Simple Demo...")
     
     # Connect to PyBullet with GUI
-    client = p.connect(p.GUI)
+    p.connect(p.GUI)
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
     p.setGravity(0, 0, -9.81)
     p.setTimeStep(1/240.0)
