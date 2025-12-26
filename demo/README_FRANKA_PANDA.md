@@ -29,13 +29,42 @@ The `demo_franka_panda_pick_place.py` script demonstrates:
 
 ## Usage
 
-### Run with GUI (Visual Simulation)
+### Quick Start - Simple Demo
+
+For a minimal example that's easy to understand:
+
+```bash
+python demo/demo_panda_simple.py
+```
+
+This demonstrates a single pick and place operation with clear step-by-step output.
+
+### Full Demo - Multiple Tasks
+
+Run the complete demonstration with multiple pick and place tasks:
 
 ```bash
 python demo/demo_franka_panda_pick_place.py
 ```
 
-This will open a PyBullet GUI window showing the simulation in real-time.
+This includes:
+- 4 sequential pick and place tasks
+- Object stacking
+- Multiple object types (cubes and spheres)
+
+### Integration with VLA Pipeline
+
+To see how the Franka Panda integrates with the full Vision-Language-Action pipeline:
+
+```bash
+python demo/demo_vla_with_panda.py
+```
+
+This shows the robot working with:
+- Computer vision perception
+- Natural language understanding
+- Symbolic planning
+- Inverse kinematics control
 
 ### Run Headless (No GUI)
 

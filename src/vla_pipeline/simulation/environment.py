@@ -110,12 +110,17 @@ class SimulationEnvironment:
         base_position = [0, 0, 0]
         base_orientation = [0, 0, 0, 1]
         
-        # For simplicity, load Kuka arm if available
+        # Try to load robots in order of preference: Panda > Kuka > Primitive
         try:
-            robot_id = p.loadURDF("kuka_iiwa/model.urdf", base_position, base_orientation, useFixedBase=True)
+            # First try Franka Panda (best option)
+            robot_id = p.loadURDF("franka_panda/panda.urdf", base_position, base_orientation, useFixedBase=True)
         except:
-            # Create simple arm from primitives
-            robot_id = self._create_primitive_arm()
+            try:
+                # Fall back to Kuka arm
+                robot_id = p.loadURDF("kuka_iiwa/model.urdf", base_position, base_orientation, useFixedBase=True)
+            except:
+                # Create simple arm from primitives
+                robot_id = self._create_primitive_arm()
         
         return robot_id
     
@@ -150,6 +155,33 @@ class SimulationEnvironment:
         )
         
         return robot_id
+    
+    def load_franka_panda(self) -> int:
+        """
+        Load Franka Panda robot specifically.
+        
+        Returns:
+            Robot body ID
+        """
+        base_position = [0, 0, 0]
+        base_orientation = [0, 0, 0, 1]
+        
+        self.robot_id = p.loadURDF(
+            "franka_panda/panda.urdf", 
+            base_position, 
+            base_orientation, 
+            useFixedBase=True
+        )
+        
+        # Get joint info
+        self.num_joints = p.getNumJoints(self.robot_id)
+        self.joint_indices = list(range(self.num_joints))
+        
+        # Store Panda-specific info
+        self.arm_joint_indices = list(range(7))  # First 7 joints
+        self.gripper_joint_indices = [9, 10]  # Finger joints
+        
+        return self.robot_id
     
     def add_object(
         self,
