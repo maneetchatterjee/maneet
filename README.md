@@ -132,7 +132,12 @@ python demo/demo_basic.py
 
 # Complex scenarios (stacking, sorting, spatial relations)
 python demo/demo_complex.py
+
+# Franka Panda pick-and-place simulation (PyBullet)
+python demo/demo_franka_panda_pick_place.py
 ```
+
+See [Franka Panda Demo README](demo/README_FRANKA_PANDA.md) for details on the Panda robot simulation.
 
 ## 🎮 Supported Commands
 
