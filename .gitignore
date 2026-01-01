@@ -50,3 +50,6 @@ output/
 # Temporary files
 *.tmp
 .DS_Store
+
+# Web scraping outputs
+gehealthcare_scrape_result.json
