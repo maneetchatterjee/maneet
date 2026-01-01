@@ -135,11 +135,11 @@ def scrape_website(url: str) -> Dict[str, Any]:
         
         for container in product_containers[:20]:  # Limit to first 20 to avoid noise
             product_name = container.find(['h2', 'h3', 'h4', 'p'], 
-                                         class_=lambda x: x and 'title' in str(x).lower() or 
-                                         x and 'name' in str(x).lower())
+                                         class_=lambda x: x and ('title' in str(x).lower() or 
+                                         'name' in str(x).lower()))
             if product_name:
                 text = product_name.get_text().strip()
-                if text and len(text) > 0 and text not in [p.get('name', '') for p in products]:
+                if text and text not in [p.get('name', '') for p in products]:
                     products.append({'name': text})
         
         data = {
