@@ -294,6 +294,12 @@ vla_pipeline/
 └── README.md
 ```
 
+## 📝 Statement of Purpose
+
+For those interested in research applications related to this work:
+- [Statement of Purpose](docs/STATEMENT_OF_PURPOSE.md) - Template SOP for AI/robotics research applications
+- [Usage Guide](docs/SOP_USAGE_GUIDE.md) - How to customize and use the SOP effectively
+
 ## 🤝 Contributing
 
 This is a research-grade implementation. Contributions are welcome for:
