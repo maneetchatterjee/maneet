@@ -6,6 +6,10 @@ A modular, production-grade pipeline for robotic manipulation in simulation that
 
 This VLA pipeline enables robots to understand and execute natural language commands for pick-and-place tasks in simulation. The system is designed with a clean, modular architecture that separates perception, reasoning, planning, and control.
 
+### 🎓 For Students & Researchers
+
+**Looking for project ideas?** Check out [PROJECT_IDEAS.md](PROJECT_IDEAS.md) for mind-boggling robotics project ideas perfect for undergraduate research, suitable for approaching professors with compelling proposals that balance ambition with feasibility.
+
 ## 🏗️ Architecture
 
 ```
