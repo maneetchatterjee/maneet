@@ -50,6 +50,3 @@ output/
 # Temporary files
 *.tmp
 .DS_Store
-
-# Private documents
-SOP.md
