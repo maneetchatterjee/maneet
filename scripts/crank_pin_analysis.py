@@ -26,6 +26,7 @@ Output:
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import PchipInterpolator
+from scipy.integrate import trapezoid
 
 # Input geometry & weights
 rpm = 1500                      # engine speed
@@ -106,7 +107,6 @@ T = Fr / np.cos(phi)  # N
 FR = np.sqrt(T**2 + F_cr**2 + 2 * T * F_cr * np.cos(theta_rad + phi))  # N
 
 # Numeric integration to get average reaction over full crank rotation (0..720 deg)
-from scipy.integrate import trapezoid
 F_avg = trapezoid(FR, theta_all) / 720  # N
 
 # Average bearing pressure p_av = (F_avg) / (projected bearing area L_pin * D_pin)
@@ -117,7 +117,7 @@ p_av_MPa = p_av_Pa / 1e6
 # Display key results
 print(f'Constant centrifugal force F_cr = {F_cr/1e3:.2f} kN')
 print(f'Average crank-pin resultant force Favg = {F_avg:.2f} N ({F_avg/1e3:.3f} kN)')
-print(f'Average crank-pin pressure p_av = {p_av_MPa:.3f} MPa ({p_av_MPa:.1f} MPa = {p_av_Pa/1e6:.0f} N/mm^2)\n')
+print(f'Average crank-pin pressure p_av = {p_av_MPa:.3f} MPa ({p_av_Pa/1e6:.0f} N/mm^2)\n')
 
 # Plot FR vs crank angle
 fig = plt.figure(figsize=(10, 6))
