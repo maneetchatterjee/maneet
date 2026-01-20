@@ -1,8 +1,26 @@
 #!/usr/bin/env python3
 """
 Crank-Pin Bearing Analysis Script
+==================================
+
 Calculates bearing reactions and pressure for engine crank mechanism.
 Converted from MATLAB code for mechanical engineering analysis.
+
+This script performs dynamic analysis of a slider-crank mechanism to determine:
+- Reciprocating and rotating inertia forces
+- Connecting rod thrust forces
+- Resultant bearing reactions at the crank pin
+- Average bearing pressure
+
+The analysis covers a full engine cycle (0-720 degrees) and generates a plot
+showing the resultant bearing reaction (F_R) versus crank angle.
+
+Usage:
+    python3 scripts/crank_pin_analysis.py
+
+Output:
+    - Console output with calculated values
+    - crank_pin_bearing_analysis.png (saved in current directory)
 """
 
 import numpy as np
