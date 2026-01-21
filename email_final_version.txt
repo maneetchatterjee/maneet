@@ -1,0 +1,49 @@
+Subject: Research Opportunity in Control Barrier Functions and Bipedal Robotics - Caltech SURF Application
+
+Dear Professor Ames,
+
+I am writing to express my strong interest in pursuing research under your supervision at the AMBER Lab through the Caltech SURF program. I am Maneet Chatterjee, currently working on vision-language-action (VLA) pipelines for robotic manipulation, with prior experience in digital twin robotics at Ansys.
+
+Your pioneering work on Control Barrier Functions (CBFs) for safety-critical control, particularly in bipedal locomotion, deeply resonates with challenges I encountered during my internship and current research. At Ansys, I worked on digital twin systems for robotics simulation, where ensuring safety guarantees in complex dynamic environments was a fundamental challenge. Your theoretical framework combining Lyapunov methods with barrier functions provides an elegant mathematical foundation that I believe could bridge formal verification approaches (which I've been exploring) with practical robot control.
+
+I have been following your recent publications with great interest:
+
+1. "Safety-Critical Control with Control Barrier Functions" - Your formalization of CBF-based control synthesis addresses precisely the gap between theoretical safety guarantees and real-time implementability. In my VLA pipeline project, I implemented custom inverse kinematics with singularity handling, but lacked formal safety certificates. Your CBF framework could provide the mathematical rigor to ensure collision avoidance and workspace constraint satisfaction with provable guarantees.
+
+2. Your work on bipedal locomotion and hybrid systems - The challenge of controlling high-dimensional, underactuated systems with contact constraints parallels problems in manipulation, particularly when dealing with dynamic pick-and-place tasks. Your approach to zero dynamics and hybrid zero dynamics (HZD) could inform more sophisticated planning algorithms for my manipulation system.
+
+3. Real-time optimization and quadratic programming - Your recent work on computationally efficient QP-based controllers aligns with my interest in bridging symbolic planning (I've implemented STRIPS-style planners) with optimization-based control.
+
+What I Can Contribute:
+
+From my VLA pipeline project, I bring:
+- Experience in modular robotics architecture design (perception, planning, control pipelines)
+- Implementation expertise in custom IK/FK solvers and trajectory optimization
+- Formal verification mindset from working with state-based symbolic planning
+- PyBullet simulation framework expertise for rapid prototyping
+
+I am particularly interested in exploring how CBF-based controllers could be integrated into manipulation tasks with vision-language grounding. Specifically, I would like to investigate:
+- Safety-critical manipulation: Applying CBFs to ensure collision-free reaching motions in cluttered environments
+- Formal guarantees in learned systems: Bridging data-driven perception modules with provably safe control
+- Multi-contact manipulation: Extending hybrid systems theory from locomotion to dexterous manipulation
+
+My technical background includes:
+- Strong mathematical foundations (control theory, optimization, formal methods)
+- Production-grade Python development (3000+ LOC in current project)
+- Research-oriented implementation (ablation studies, formal verification, benchmarking)
+- Experience with both symbolic and numerical approaches to robotics problems
+
+I am particularly drawn to AMBER Lab's philosophy of combining theoretical rigor with practical implementation. Your lab's track record of deploying controllers on physical robots (Cassie, DURUS) demonstrates the real-world impact of principled theoretical approaches - exactly the research trajectory I aspire to follow.
+
+Timeline and Commitment:
+I am applying for the Caltech SURF program for Summer 2026 and am prepared to commit full-time to research for the 10-week duration. If my application is successful, I would be honored to contribute to ongoing projects in safety-critical control, bipedal robotics, or related areas of hybrid systems theory.
+
+I have attached my CV and a brief technical overview of my VLA pipeline project. I would be grateful for the opportunity to discuss potential research directions and how my background might complement ongoing work in your lab.
+
+Thank you for considering my application. I look forward to the possibility of learning from and contributing to the exceptional research at AMBER Lab.
+
+Sincerely,
+
+Maneet Chatterjee
+GitHub: https://github.com/maneetchatterjee/maneet
+Project: Vision-Language-Action Pipeline for Robotic Manipulation
