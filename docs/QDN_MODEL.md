@@ -6,6 +6,8 @@ The Quantum Detection Network (QDN) is a hybrid quantum-classical neural network
 
 ![QDN Architecture](qdn_architecture.png)
 
+> **Note:** An editable draw.io file (`qdn_architecture.drawio`) is also available for further customization. Open it at [diagrams.net](https://app.diagrams.net/) or with any draw.io compatible editor.
+
 ## Architecture Components
 
 ### 1. Input Processing

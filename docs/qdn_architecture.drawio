@@ -1,0 +1,386 @@
+<mxfile host="app.diagrams.net" modified="2025-01-21T15:40:00.000Z" agent="Mozilla/5.0" version="21.0.0" etag="qdn-architecture" type="device">
+  <diagram id="qdn-main" name="QDN Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;QDN: Quantum Detection Network Architecture&lt;/b&gt;&lt;br&gt;&lt;i&gt;Hybrid Quantum-Classical Network for Hyperspectral Change Detection&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="500" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- INPUT SECTION -->
+        <mxCell id="input-group" value="Input" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="360" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="input-x1" value="X₁ (H×W×C)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="140" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="input-x2" value="X₂ (H×W×C)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="140" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="input-spec" value="Spectral Map&lt;br&gt;(H×W×1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="140" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- DIMENSION REDUCTION -->
+        <mxCell id="dimred-x1" value="Conv 1×1&lt;br&gt;(C→64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="220" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dimred-x2" value="Conv 1×1&lt;br&gt;(C→64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="220" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows from input to dimred -->
+        <mxCell id="arr1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="input-x1" target="dimred-x1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="input-x2" target="dimred-x2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- PReLU -->
+        <mxCell id="prelu1" value="PReLU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="100" y="290" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prelu2" value="PReLU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="220" y="290" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="dimred-x1" target="prelu1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="dimred-x2" target="prelu2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- DIFFERENCE -->
+        <mxCell id="diff" value="&lt;b&gt;X&lt;sub&gt;diff&lt;/sub&gt; = X₁ - X₂&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="130" y="350" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="prelu1" target="diff">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="prelu2" target="diff">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- GRAPH ATTENTION BRANCH -->
+        <mxCell id="gat-group" value="&lt;b&gt;Graph Attention Branch&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;rounded=1;swimlaneFillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="450" width="180" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="superpixel" value="Superpixel Pool&lt;br&gt;&lt;b&gt;Q&lt;sup&gt;T&lt;/sup&gt; · X&lt;sub&gt;diff&lt;/sub&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="100" y="490" width="140" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gat-net" value="&lt;b&gt;GAT Network&lt;/b&gt;&lt;br&gt;2-Head Attention&lt;br&gt;(64→128→64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="550" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="feat-proj" value="Feature Projection&lt;br&gt;&lt;b&gt;Q · H&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="100" y="615" width="140" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-gat1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="superpixel" target="gat-net">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-gat2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="gat-net" target="feat-proj">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- QFL BRANCH -->
+        <mxCell id="qfl-group" value="&lt;b&gt;Quantum Feature Learning (QFL)&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;swimlaneFillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="300" y="450" width="200" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dr3" value="DR3 Conv&lt;br&gt;(64→8)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="330" y="490" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="queen1" value="&lt;b&gt;QUEEN Circuit&lt;/b&gt;&lt;br&gt;4 Qubits × 1 Layer&lt;br&gt;PauliZ Measurement" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=1 2;" vertex="1" parent="1">
+          <mxGeometry x="330" y="545" width="140" height="55" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="specup" value="Spec Up Conv&lt;br&gt;(4→64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="330" y="615" width="140" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-qfl1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="dr3" target="queen1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-qfl2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="queen1" target="specup">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows from diff to branches -->
+        <mxCell id="arr-to-gat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="diff" target="superpixel">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="430" />
+              <mxPoint x="170" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arr-to-qfl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="diff" target="dr3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="430" />
+              <mxPoint x="400" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- FEATURE FUSION -->
+        <mxCell id="fusion" value="&lt;b&gt;Feature Fusion&lt;/b&gt;&lt;br&gt;(GAT + QFL) × Spectral" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="140" y="690" width="300" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-gat-fus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="feat-proj" target="fusion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-qfl-fus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="specup" target="fusion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Spectral map to fusion -->
+        <mxCell id="arr-spec-fus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="input-spec" target="fusion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="160" />
+              <mxPoint x="500" y="712" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- CONCATENATION -->
+        <mxCell id="concat" value="&lt;b&gt;Concatenate&lt;/b&gt;&lt;br&gt;[Feature, X₁, X₂, Spectral]&lt;br&gt;(193 channels)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="560" y="450" width="160" height="55" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-fus-cat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="fusion" target="concat">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="760" />
+              <mxPoint x="530" y="760" />
+              <mxPoint x="530" y="478" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- FEATURE EXTRACTION -->
+        <mxCell id="extract-group" value="&lt;b&gt;Feature Extraction&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;swimlaneFillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="560" y="530" width="160" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="extract-conv" value="Conv 3×3&lt;br&gt;(193→64)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="575" y="565" width="130" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bn1" value="BN + PReLU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="575" y="610" width="130" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="conv2" value="Conv 3×3&lt;br&gt;(64→32)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="575" y="645" width="130" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bn2" value="BN + PReLU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="575" y="690" width="130" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-cat-ext" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="concat" target="extract-conv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-ext1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="extract-conv" target="bn1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-ext2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="bn1" target="conv2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-ext3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="conv2" target="bn2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- CLASSIFICATION BRANCHES -->
+        <!-- Classical Branch -->
+        <mxCell id="class-group" value="&lt;b&gt;Classical Classifier&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;swimlaneFillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="760" y="530" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="linear1" value="Linear&lt;br&gt;(32→2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="775" y="570" width="110" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="softmax1" value="Softmax" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="775" y="615" width="110" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-cl1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="linear1" target="softmax1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- QEC Branch -->
+        <mxCell id="qec-group" value="&lt;b&gt;Quantum Enhanced Classification (QEC)&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;swimlaneFillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="760" y="680" width="230" height="130" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="qnn-red" value="Conv 1×1 (32→4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="780" y="720" width="190" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="queen2" value="&lt;b&gt;QUEEN Circuit&lt;/b&gt;&lt;br&gt;4 Qubits × 1 Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=1 2;" vertex="1" parent="1">
+          <mxGeometry x="780" y="760" width="190" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-qec1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="qnn-red" target="queen2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows from extraction to classification -->
+        <mxCell id="arr-ext-cl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bn2" target="linear1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-ext-qec" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bn2" target="qnn-red">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="703" />
+              <mxPoint x="740" y="735" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ATTENTION FUSION -->
+        <mxCell id="att-fusion" value="&lt;b&gt;Attention Fusion&lt;/b&gt;&lt;br&gt;W&lt;sub&gt;att&lt;/sub&gt; · [Classical, Quantum]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="620" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-cl-att" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="softmax1" target="att-fusion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="628" />
+              <mxPoint x="1000" y="633" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arr-qec-att" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="queen2" target="att-fusion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="780" />
+              <mxPoint x="1000" y="658" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- FINAL OUTPUT -->
+        <mxCell id="final-linear" value="Linear (4→2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="700" width="130" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="final-softmax" value="Softmax" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="745" width="130" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="output" value="&lt;b&gt;Output Y&lt;/b&gt;&lt;br&gt;Change Probability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="790" width="160" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-att-lin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="att-fusion" target="final-linear">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-lin-soft" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="final-linear" target="final-softmax">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arr-soft-out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="final-softmax" target="output">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- QUEEN Circuit Detail Box -->
+        <mxCell id="queen-detail" value="" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="100" width="250" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="queen-title" value="&lt;b&gt;QUEEN Circuit Structure&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="105" width="250" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="queen-desc" value="1. RY Angle Encoding (Input Data)&lt;br&gt;2. RY Trainable Rotations (θ)&lt;br&gt;3. IsingXX Entanglement (Pattern 1)&lt;br&gt;4. RX Trainable Rotations (θ)&lt;br&gt;5. IsingXX Entanglement (Pattern 2)&lt;br&gt;6. RY Trainable Rotations (θ)&lt;br&gt;7. Multi-Controlled X Gates&lt;br&gt;8. PauliZ Measurement [q0, q2]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="130" width="240" height="145" as="geometry" />
+        </mxCell>
+        
+        <!-- LEGEND -->
+        <mxCell id="legend" value="" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="300" width="250" height="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="305" width="250" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="330" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1-t" value="Input/Output Data" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="330" width="100" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="350" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2-t" value="Convolutional Layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="350" width="100" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="370" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3-t" value="Graph Attention" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="370" width="100" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="390" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4-t" value="Quantum Circuit" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="390" width="100" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="410" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5-t" value="Activation/Normalization" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="410" width="130" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="leg6" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="430" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6-t" value="Feature Fusion" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1075" y="430" width="100" height="15" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
