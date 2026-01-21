@@ -126,12 +126,30 @@ This document captures the complete rewrite process for the cold email to Prof. 
 - **Measurable outcomes:** Communication overhead, completion variance, failure recovery
 - **Technical honesty:** "good performance" not "excellent results"
 
+Note: The final email contains 6 paragraphs, not 5 as stated in earlier sections.
+
 ## Limitations & Missing Elements
 
+### Limitations & Missing Elements
+
 ### Cannot Address (Due to Access Issues):
-1. ❌ **CV Integration:** Could not access Maneet_Chatterjee_CV file
-2. ❌ **Recent Papers:** Could not fetch 2024-2025 publications
-3. ❌ **Lab Projects:** Could not verify current MARMot Lab focus
+1. ❌ **CV Integration:** Could not access Maneet_Chatterjee_CV file from CV repository. This would have allowed:
+   - Highlighting unique background elements (specific projects, publications, skills)
+   - Tailoring technical depth to match actual experience level
+   - Avoiding redundancy with CV content
+   - Adding distinctive personal differentiators
+
+2. ❌ **Recent Papers:** Could not fetch 2024-2025 publications from Google Scholar. This would have enabled:
+   - Citing specific recent work with technical details
+   - Showing deep engagement with current research
+   - Demonstrating up-to-date knowledge of lab's direction
+   - Making connections to cutting-edge methods
+
+3. ❌ **Lab Projects:** Could not verify current MARMot Lab focus areas. This would have permitted:
+   - Aligning contributions with active projects
+   - Showing awareness of lab's current priorities
+   - Proposing more relevant research directions
+   - Demonstrating thorough preparation
 
 ### Would Elevate to A+ (90-95%) If Added:
 1. One specific 2024-2025 paper citation with technical detail
