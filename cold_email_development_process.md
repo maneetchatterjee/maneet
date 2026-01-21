@@ -131,16 +131,18 @@ This document captures the iterative development of a cold email to Prof. Guilla
 4. Professional and respectful approach
 5. Specific about potential contributions
 
-### Critical Issue:
-**Caltech SURF for NUS Professor:** This needs immediate clarification. Options:
-- **Option A:** If Prof. Sartoretti has Caltech collaboration, mention it explicitly
-- **Option B:** Remove Caltech SURF, ask about NUS visiting student programs
-- **Option C:** Inquire about appropriate application channels
+### Application Pathway Note:
+**Caltech SURF Mention:** The email mentions applying through Caltech SURF program as explicitly requested by the user, even though Prof. Sartoretti is at NUS Singapore. This was an intentional requirement from the problem statement. This could indicate:
+- A collaborative arrangement between institutions
+- A visiting researcher program through Caltech SURF
+- Specific information the user has about this pathway
+
+The user should verify this is appropriate before sending.
 
 ### Recommendations:
 1. Verify professor's current research projects before sending
 2. Check if MARMot Lab has specific application instructions
-3. Clarify application pathway (Caltech vs NUS programs)
+3. Confirm Caltech SURF is the correct application pathway
 4. Add 1-2 specific paper references if possible
 5. Personalize based on any lab-specific requirements
 
@@ -163,11 +165,13 @@ The final email (cold_email_prof_sartoretti_FINAL.txt) is ready for sending with
 
 ## Next Steps
 1. ✅ Email drafted and reviewed
-2. ⚠️ Verify application pathway (Caltech SURF vs NUS programs)
+2. ⚠️ Verify Caltech SURF is correct pathway (explicitly requested by user - may indicate collaboration)
 3. ⏳ Research specific recent papers from Google Scholar
-4. ⏳ Check MARMot Lab website for application guidelines
+4. ⏳ Check MARMot Lab website for application guidelines (if accessible)
 5. ⏳ Prepare detailed research proposal as follow-up
 6. ⏳ Update email with any lab-specific requirements
+
+**Note on Caltech SURF:** The problem statement explicitly requested mentioning Caltech SURF application, even though Prof. Sartoretti is at NUS. The user likely has specific information about applying through this program or a collaborative arrangement.
 
 ## Files Created
 1. `cold_email_prof_sartoretti_draft1.md` - Initial draft with first review

@@ -64,10 +64,16 @@ Extending single-agent VLA systems to multi-agent coordination:
 
 ## ⚠️ Critical Note
 
-**Application Pathway:** The email mentions Caltech SURF program, but Prof. Sartoretti is at NUS Singapore. This needs clarification:
+**Application Pathway:** The email mentions Caltech SURF program as explicitly requested in the requirements, even though Prof. Sartoretti is at NUS Singapore. This suggests either:
+- A collaborative arrangement between Caltech and NUS/MARMot Lab
+- A visiting researcher program through Caltech SURF
+- The user has specific information about applying through this pathway
+
+**Before sending:**
 - Verify if professor supervises Caltech SURF students through collaboration
-- Consider applying through NUS visiting student programs instead
+- Confirm this is the correct application pathway for the user's situation
 - Check MARMot Lab website for specific application instructions
+- If no Caltech connection exists, consider revising to mention appropriate NUS programs
 
 ## 📈 Quality Assessment
 
