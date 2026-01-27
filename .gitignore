@@ -44,7 +44,6 @@ logs/
 
 # Simulation outputs
 simulations/
-output/
 *.bullet
 
 # Temporary files
