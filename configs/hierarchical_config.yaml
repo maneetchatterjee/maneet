@@ -1,0 +1,39 @@
+# Configuration for Hierarchical agent
+algorithm:
+  type: hierarchical
+
+agent:
+  skill_dim: 8
+  skill_embedding_dim: 16
+  lr_high: 0.0001
+  lr_low: 0.0003
+  gamma: 0.99
+  skill_duration: 10
+
+training:
+  total_steps: 1000000
+  batch_size: 256
+  max_episode_steps: 1000
+  checkpoint_interval: 50000
+  eval_interval: 25000
+  eval_episodes: 10
+
+env:
+  domain_randomization:
+    randomize_mass: true
+    mass_range: [0.9, 1.1]
+    randomize_friction: true
+    friction_range: [0.7, 1.3]
+    randomize_damping: true
+    damping_range: [0.3, 0.7]
+
+logging:
+  log_interval: 100
+
+paths:
+  log_dir: results/hierarchical/logs
+  checkpoint_dir: results/hierarchical/checkpoints
+  video_dir: results/hierarchical/videos
+
+device: cuda
+seed: 42
