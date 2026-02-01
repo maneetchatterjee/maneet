@@ -288,19 +288,20 @@ class BipedEnv(gym.Env):
         
         # Info dict
         info = {
-            'forward_reward': forward_reward,
-            'velocity_reward': velocity_reward,
-            'upright_reward': upright_reward,
-            'energy_penalty': energy_penalty,
-            'joint_penalty': joint_penalty,
-            'forward_velocity': forward_vel,
-            'height': height,
-            'energy_consumption': self.energy_consumption,
+            'forward_reward': float(forward_reward),
+            'velocity_reward': float(velocity_reward),
+            'upright_reward': float(upright_reward),
+            'energy_penalty': float(energy_penalty),
+            'joint_penalty': float(joint_penalty),
+            'forward_velocity': float(forward_vel),
+            'height': float(height),
+            'energy_consumption': float(self.energy_consumption),
         }
         
         self.last_pos = current_pos
         
-        return reward, info
+        # Ensure reward is Python float, not numpy scalar
+        return float(reward), info
     
     def _check_termination(self) -> bool:
         """Check if episode should terminate."""
@@ -351,4 +352,8 @@ class BipedEnv(gym.Env):
     
     def close(self):
         """Clean up environment."""
-        p.disconnect(self.physics_client)
+        try:
+            if self.physics_client >= 0:
+                p.disconnect(self.physics_client)
+        except:
+            pass  # Already disconnected or invalid
