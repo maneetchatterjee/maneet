@@ -52,10 +52,11 @@ Thumbs.db
 
 # Results (keep structure, ignore large files)
 results/tensorboard/events.*
-results/videos/*.mp4
-results/videos/*.gif
+# Allow sample videos in results directories
+# results/*/videos/*.mp4 (commented to track sample videos)
 results/checkpoints/*.pth
-results/checkpoints/*.pt
+# Allow sample checkpoints
+# results/checkpoints/*.pt (commented to track sample checkpoints)
 
 # Test artifacts
 .pytest_cache/

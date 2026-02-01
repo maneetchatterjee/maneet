@@ -71,10 +71,58 @@ Metrics logged:
 
 ## Videos
 
-Evaluation videos are saved as MP4 files:
-- `episode_0.mp4`, `episode_1.mp4`, etc.
-- 30 FPS, RGB rendering
-- Generated during evaluation runs
+### Available Videos
+
+Sample demonstration videos are available in `results/demo/videos/`:
+
+1. **episode_0_random.mp4** - Random policy baseline (147 KB)
+2. **episode_1_forward_bias.mp4** - Forward-biased control (146 KB)
+3. **episode_2_standing.mp4** - Standing stabilization (147 KB)
+
+Sample videos are also copied to:
+- `results/sac/videos/episode_0.mp4`
+- `results/dreamer/videos/episode_0.mp4`
+- `results/hierarchical/videos/episode_0.mp4`
+
+### Video Specifications
+
+- **Format**: MP4 (H.264)
+- **Frame Rate**: 30 FPS
+- **Resolution**: 320x240 RGB
+- **Duration**: ~7.7 seconds (200 frames)
+
+### Generating Videos
+
+To generate evaluation videos from trained models:
+
+```bash
+python evaluate.py \
+    --config configs/sac_config.yaml \
+    --checkpoint results/sac/checkpoints/final_model.pt \
+    --num_episodes 10 \
+    --save_videos
+```
+
+### Video Documentation
+
+See `VIDEO_DOCUMENTATION.md` for comprehensive information about:
+- Video generation process
+- Policy descriptions
+- Viewing instructions
+- Troubleshooting
+
+### Viewing Videos
+
+```bash
+# Linux
+vlc results/demo/videos/episode_0_random.mp4
+
+# Mac
+open results/demo/videos/episode_0_random.mp4
+
+# Python
+python -c "from IPython.display import Video; Video('results/demo/videos/episode_0_random.mp4')"
+```
 
 ## Expected Results
 
