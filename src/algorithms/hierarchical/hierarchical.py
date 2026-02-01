@@ -220,7 +220,7 @@ class HierarchicalAgent:
     
     def load(self, path: str):
         """Load model state."""
-        state = torch.load(path, map_location=self.device)
+        state = torch.load(path, map_location=self.device, weights_only=False)
         
         self.skill_manager.load_state_dict(state['skill_manager'])
         self.skill_encoder.load_state_dict(state['skill_encoder'])

@@ -276,7 +276,7 @@ class Dreamer:
     
     def load(self, path: str):
         """Load model state."""
-        state = torch.load(path, map_location=self.device)
+        state = torch.load(path, map_location=self.device, weights_only=False)
         
         self.encoder.load_state_dict(state['encoder'])
         self.dynamics.load_state_dict(state['dynamics'])

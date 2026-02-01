@@ -43,7 +43,7 @@ def save_checkpoint(
 
 def load_checkpoint(checkpoint_path: str, restore_rng: bool = True) -> Dict[str, Any]:
     """Load checkpoint and optionally restore RNG states."""
-    checkpoint = torch.load(checkpoint_path, map_location='cpu')
+    checkpoint = torch.load(checkpoint_path, map_location='cpu', weights_only=False)
     
     if restore_rng and 'rng_state' in checkpoint:
         set_rng_state(checkpoint['rng_state'])
