@@ -13,7 +13,6 @@ dependencies:
   - matplotlib>=3.7.0
   - pip:
     - pybullet>=3.2.5
-    - gym>=0.26.0
     - gymnasium>=0.28.0
     - tensorboard>=2.13.0
     - tensorboardX>=2.6

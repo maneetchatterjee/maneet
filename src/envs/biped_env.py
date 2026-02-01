@@ -1,11 +1,11 @@
-# Custom Gym environment for bipedal walking with PyBullet
+# Custom Gymnasium environment for bipedal walking with PyBullet
 """Bipedal robot environment with domain randomization and safety constraints."""
 
 import numpy as np
 import pybullet as p
 import pybullet_data
-import gym
-from gym import spaces
+import gymnasium as gym
+from gymnasium import spaces
 from typing import Optional, Tuple, Dict, Any
 import time
 
