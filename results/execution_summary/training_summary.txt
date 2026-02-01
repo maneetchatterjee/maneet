@@ -1,0 +1,11 @@
+==================================================
+TRAINING SUMMARY (Demo Run)
+==================================================
+Total Episodes: 62
+Total Steps: 4956
+Mean Episode Return: 41.07 ± 7.41
+Best Episode Return: 46.03
+Worst Episode Return: -5.31
+Final 5 Episodes Mean: 43.10
+Mean Episode Length: 79.95 ± 7.54
+==================================================
