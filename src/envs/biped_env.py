@@ -64,11 +64,11 @@ class BipedEnv(gym.Env):
         self.footstep_count = 0
         self.energy_consumption = 0.0
         
-        # Define action and observation spaces (placeholder, will be set in reset)
-        # For humanoid: typically 17 DoF (body + legs + arms)
-        self.action_dim = 10  # Main leg joints
-        self.obs_dim = 37  # Joint positions, velocities, torso orientation, etc.
+        # Load robot once to determine correct dimensions for spaces
+        # This ensures observation_space and action_space are correct from start
+        self._initial_setup()
         
+        # Define action and observation spaces based on actual robot
         self.action_space = spaces.Box(
             low=-1.0, high=1.0, shape=(self.action_dim,), dtype=np.float32
         )
@@ -76,6 +76,35 @@ class BipedEnv(gym.Env):
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.obs_dim,), dtype=np.float32
         )
+    
+    def _initial_setup(self):
+        """Initial setup to determine correct dimensions."""
+        # Temporarily load robot to get dimensions
+        p.resetSimulation(self.physics_client)
+        p.setGravity(0, 0, -9.81)
+        p.setTimeStep(1.0 / 240.0)
+        p.loadURDF("plane.urdf")
+        
+        start_pos = [0, 0, 1.0]
+        start_orientation = p.getQuaternionFromEuler([0, 0, 0])
+        temp_robot = p.loadURDF(
+            "humanoid/humanoid.urdf",
+            start_pos,
+            start_orientation,
+            useFixedBase=False,
+        )
+        
+        # Get joint information to determine action_dim
+        num_joints = p.getNumJoints(temp_robot)
+        joint_indices = []
+        for i in range(num_joints):
+            joint_info = p.getJointInfo(temp_robot, i)
+            joint_type = joint_info[2]
+            if joint_type in [p.JOINT_REVOLUTE, p.JOINT_PRISMATIC]:
+                joint_indices.append(i)
+        
+        self.action_dim = len(joint_indices)
+        self.obs_dim = 37  # Fixed based on observation structure
     
     def reset(self, seed: Optional[int] = None) -> np.ndarray:
         """Reset environment to initial state."""
@@ -141,11 +170,9 @@ class BipedEnv(gym.Env):
                 self.joint_limits.append((lower_limit, upper_limit))
                 self.torque_limits.append(max_force if max_force > 0 else 100.0)
         
-        # Update action dimension based on actual controllable joints
-        self.action_dim = len(self.joint_indices)
-        self.action_space = spaces.Box(
-            low=-1.0, high=1.0, shape=(self.action_dim,), dtype=np.float32
-        )
+        # Verify action dimension matches (should be consistent)
+        assert len(self.joint_indices) == self.action_dim, \
+            f"Joint count mismatch: {len(self.joint_indices)} != {self.action_dim}"
     
     def _apply_domain_randomization(self):
         """Apply domain randomization to physics parameters."""
