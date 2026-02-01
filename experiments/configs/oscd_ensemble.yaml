@@ -1,0 +1,91 @@
+# Configuration for ensemble model with normalizing flow
+
+experiment:
+  name: "oscd_ensemble_flow"
+  seed: 42
+  output_dir: "experiments/runs"
+
+model:
+  backbone: "resnet34"
+  embedding_dim: 128
+  density_model: "normalizing_flow"
+  n_gmm_components: 3
+  n_flows: 8
+  pretrained: true
+  input_channels: 3
+
+ensemble:
+  enabled: true
+  n_models: 5
+
+dataset:
+  name: "oscd"
+  root_dir: "data/OSCD"
+  patch_size: 256
+  use_rgb_only: true
+  normalize: true
+  
+  train_regions:
+    - "abudhabi"
+    - "aguasclaras"
+    - "beihai"
+  val_regions:
+    - "beirut"
+  test_regions:
+    - "bercy"
+
+training:
+  batch_size: 12
+  epochs: 150
+  num_workers: 4
+  
+  optimizer:
+    type: "adamw"
+    lr: 0.0001
+    weight_decay: 0.01
+  
+  scheduler:
+    type: "cosine"
+    min_lr: 0.000001
+    warmup_epochs: 10
+  
+  loss:
+    type: "combined"
+    bce_weight: 0.5
+    dice_weight: 0.5
+    pos_weight: 2.0
+  
+  mixed_precision: true
+  gradient_clip: 1.0
+  
+  checkpoint:
+    save_freq: 10
+    save_best: true
+
+density_model_training:
+  enabled: true
+  fit_on_train: true
+  min_samples: 100
+
+thresholds:
+  no_change: 0.5
+  change_confident: 0.75
+  log_likelihood: -12.0
+  uncertainty: 0.25
+
+evaluation:
+  metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+    - "iou"
+    - "auroc"
+    - "ece"
+  
+  compute_ood: true
+  compute_calibration: true
+  save_visualizations: true
+  
+  visualization:
+    num_samples: 20
+    save_dir: "visualizations"
