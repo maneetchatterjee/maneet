@@ -124,6 +124,30 @@ pipeline.print_metrics_summary()
 pipeline.close()
 ```
 
+### Example with Placement Zones/Trays
+
+```python
+from vla_pipeline import VLAPipeline
+
+pipeline = VLAPipeline(use_gui=True)
+
+# Setup scene with trays and objects
+scene_config = {
+    'trays': [
+        {'position': [-0.1, -0.2, 0.0], 'size': (0.15, 0.15), 'color': 'red', 'label': 'Red Zone'},
+        {'position': [-0.1, 0.2, 0.0], 'size': (0.15, 0.15), 'color': 'blue', 'label': 'Blue Zone'},
+    ],
+    'objects': [
+        {'shape': 'cube', 'color': 'red', 'position': [0.3, 0.0, 0.05], 'size': 0.05},
+        {'shape': 'sphere', 'color': 'blue', 'position': [0.3, 0.15, 0.05], 'size': 0.05},
+    ]
+}
+pipeline.setup_scene(scene_config)
+
+pipeline.execute_command("Pick the red cube and place it on the red zone")
+pipeline.close()
+```
+
 ### Running Demos
 
 ```bash
@@ -132,6 +156,12 @@ python demo/demo_basic.py
 
 # Complex scenarios (stacking, sorting, spatial relations)
 python demo/demo_complex.py
+
+# Sorting with placement zones/trays
+python demo/demo_with_trays.py
+
+# Alternate object shapes (cups, bottles)
+python demo/demo_alternate_objects.py
 ```
 
 ## 🎮 Supported Commands
@@ -145,7 +175,7 @@ The system understands natural language commands with the following patterns:
 
 ### Object Properties
 - **Colors**: red, blue, green, yellow, orange, purple
-- **Shapes**: cube, box, block, sphere, ball, cylinder, can
+- **Shapes**: cube, box, block, sphere, ball, cylinder, can, cup, mug, bottle
 
 ### Spatial Relations
 - **Positional**: "left of", "right of", "in front of", "behind"
@@ -157,7 +187,36 @@ The system understands natural language commands with the following patterns:
 "Pick the red cube and place it left of the blue cube"
 "Grab the green sphere and put it next to the yellow block"
 "Take the blue cylinder and place it on the red cube"
+"Pick the cup and place it on the blue zone"
 ```
+
+## 🎨 Scene Configuration
+
+### Objects
+Objects are defined with shape, color, position, and size:
+```python
+{'shape': 'cube', 'color': 'red', 'position': [0.3, 0.0, 0.05], 'size': 0.05}
+```
+
+**Z-coordinate guidelines:**
+- Table surface is at z=0.0
+- Objects resting on table: z = object_height/2 (e.g., 0.05 for 0.1m objects)
+- Stacked objects: adjust z accordingly
+
+### Trays/Placement Zones
+Trays are thin boxes that sit flush on the table to mark sorting/placement zones:
+```python
+{'position': [-0.1, 0.0, 0.0], 'size': (0.15, 0.15), 'color': 'blue', 'label': 'Blue Zone'}
+```
+
+Trays automatically position themselves flush on the table surface (z≈0.0025m to avoid z-fighting).
+
+### Alternate Object Models
+See [OBJECT_SUBSTITUTION_GUIDE.md](OBJECT_SUBSTITUTION_GUIDE.md) for details on:
+- Adding custom primitive shapes (e.g., cone, torus)
+- Using URDF files for complex models
+- Loading custom mesh files (OBJ, STL)
+- Configuring cups, bottles, and other household objects
 
 ## 📊 Metrics and Benchmarking
 

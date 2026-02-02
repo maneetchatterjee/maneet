@@ -243,15 +243,30 @@ class VLAPipeline:
     
     def setup_scene(self, scene_config: Dict):
         """
-        Setup simulation scene with objects.
+        Setup simulation scene with objects and trays.
         
         Args:
-            scene_config: Dictionary with object configurations
+            scene_config: Dictionary with object and tray configurations
+                - 'objects': List of objects to add
+                - 'trays': Optional list of trays/placement zones to add
         """
         print("\nSetting up scene...")
         
         # Reset simulation
         self.simulation.reset()
+        
+        # Add trays first (so they're on the bottom)
+        trays = scene_config.get('trays', [])
+        for tray in trays:
+            self.simulation.add_tray(
+                position=tuple(tray['position']),
+                size=tuple(tray.get('size', (0.2, 0.2))),
+                height=tray.get('height', 0.005),
+                color=tray.get('color', 'gray'),
+                label=tray.get('label', None)
+            )
+            label = tray.get('label', f"{tray.get('color', 'gray')} tray")
+            print(f"  Added {label} at {tray['position']}")
         
         # Add objects
         objects = scene_config.get('objects', [])

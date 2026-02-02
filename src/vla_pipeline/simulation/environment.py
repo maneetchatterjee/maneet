@@ -214,6 +214,36 @@ class SimulationEnvironment:
                 radius=size/2,
                 height=size
             )
+        elif shape in ['cup', 'mug']:
+            # Cup: wider cylinder (taller than wide)
+            cup_radius = size / 2
+            cup_height = size * 1.5
+            visual_shape = p.createVisualShape(
+                p.GEOM_CYLINDER,
+                radius=cup_radius,
+                length=cup_height,
+                rgbaColor=rgba
+            )
+            collision_shape = p.createCollisionShape(
+                p.GEOM_CYLINDER,
+                radius=cup_radius,
+                height=cup_height
+            )
+        elif shape in ['bottle']:
+            # Bottle: narrow cylinder (much taller than wide)
+            bottle_radius = size / 3
+            bottle_height = size * 2.5
+            visual_shape = p.createVisualShape(
+                p.GEOM_CYLINDER,
+                radius=bottle_radius,
+                length=bottle_height,
+                rgbaColor=rgba
+            )
+            collision_shape = p.createCollisionShape(
+                p.GEOM_CYLINDER,
+                radius=bottle_radius,
+                height=bottle_height
+            )
         else:
             # Default to cube
             visual_shape = p.createVisualShape(
@@ -244,6 +274,79 @@ class SimulationEnvironment:
         self.object_counter += 1
         
         return object_id
+    
+    def add_tray(
+        self,
+        position: Tuple[float, float, float],
+        size: Tuple[float, float] = (0.2, 0.2),
+        height: float = 0.005,
+        color: str = 'gray',
+        label: Optional[str] = None
+    ) -> int:
+        """
+        Add a tray/placement zone to simulation.
+        
+        Trays are thin boxes that sit flush on the table surface to mark placement zones.
+        
+        Args:
+            position: Center position (x, y, z) - z should be very small (e.g., 0.001) to sit on table
+            size: Tray dimensions (width, depth) in meters
+            height: Tray thickness (default 0.005m = 5mm)
+            color: Tray color name
+            label: Optional label for the tray
+            
+        Returns:
+            Tray body ID
+        """
+        # Map color names to RGB with semi-transparency for trays
+        color_map = {
+            'red': [1, 0, 0, 0.5],
+            'blue': [0, 0, 1, 0.5],
+            'green': [0, 1, 0, 0.5],
+            'yellow': [1, 1, 0, 0.5],
+            'orange': [1, 0.5, 0, 0.5],
+            'purple': [0.5, 0, 0.5, 0.5],
+            'gray': [0.7, 0.7, 0.7, 0.5],
+            'white': [0.9, 0.9, 0.9, 0.5],
+        }
+        rgba = color_map.get(color, [0.7, 0.7, 0.7, 0.5])
+        
+        # Create thin box for tray - sits flush on table
+        width, depth = size
+        visual_shape = p.createVisualShape(
+            p.GEOM_BOX,
+            halfExtents=[width/2, depth/2, height/2],
+            rgbaColor=rgba
+        )
+        collision_shape = p.createCollisionShape(
+            p.GEOM_BOX,
+            halfExtents=[width/2, depth/2, height/2]
+        )
+        
+        # Adjust z-position to sit flush on table surface
+        # Use small offset (height/2) to avoid z-fighting with table plane
+        adjusted_position = (position[0], position[1], height/2)
+        
+        # Create multi-body with very low mass (essentially static)
+        tray_id = p.createMultiBody(
+            baseMass=0.001,  # Very light so objects don't disturb it
+            baseCollisionShapeIndex=collision_shape,
+            baseVisualShapeIndex=visual_shape,
+            basePosition=adjusted_position
+        )
+        
+        # Store tray info
+        tray_name = label if label else f"{color}_tray"
+        self.objects[tray_id] = {
+            'name': tray_name,
+            'color': color,
+            'shape': 'tray',
+            'size': size,
+            'is_tray': True
+        }
+        self.object_counter += 1
+        
+        return tray_id
     
     def set_joint_positions(self, joint_positions: np.ndarray) -> bool:
         """
