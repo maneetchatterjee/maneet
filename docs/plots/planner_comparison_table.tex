@@ -1,0 +1,15 @@
+\begin{table}[h]
+\centering
+\caption{Planner Performance Comparison}
+\label{tab:planner_comparison}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Planner} & \textbf{Success Rate} & \textbf{Avg Time (s)} & \textbf{Plan Length} & \textbf{Completeness} & \textbf{Optimality} \\
+\midrule
+STRIPS (BFS) & 85\% & 0.050 & 4.2 & Partial & No \\
+Greedy (DFS) & 75\% & 0.030 & 5.8 & No & No \\
+Random & 20\% & 0.100 & N/A & No & No \\
+Scripted & 60\% & 0.001 & 2.0 & No & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
