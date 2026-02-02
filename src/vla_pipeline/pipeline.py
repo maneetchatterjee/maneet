@@ -258,6 +258,12 @@ class VLAPipeline:
         # Add trays first (so they're on the bottom)
         trays = scene_config.get('trays', [])
         for tray in trays:
+            # Validate tray configuration
+            if 'position' not in tray:
+                raise ValueError(f"Tray configuration missing required 'position' field: {tray}")
+            if not isinstance(tray['position'], (list, tuple)) or len(tray['position']) != 3:
+                raise ValueError(f"Tray 'position' must be a list/tuple of 3 numbers [x, y, z]: {tray['position']}")
+            
             self.simulation.add_tray(
                 position=tuple(tray['position']),
                 size=tuple(tray.get('size', (0.2, 0.2))),

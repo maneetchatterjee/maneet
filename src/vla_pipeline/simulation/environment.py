@@ -215,7 +215,7 @@ class SimulationEnvironment:
                 height=size
             )
         elif shape in ['cup', 'mug']:
-            # Cup: wider cylinder (taller than wide)
+            # Cup: taller cylinder (height > radius for typical cup proportions)
             cup_radius = size / 2
             cup_height = size * 1.5
             visual_shape = p.createVisualShape(

@@ -54,6 +54,18 @@ def test_tray_positioning():
         print(f"  ✗ FAIL: Tray z-position is off by {abs(tray_pos[2] - expected_z)*1000:.2f}mm")
         result = False
     
+    # Step additional simulation cycles to verify tray remains stable
+    env.step(num_steps=200)
+    tray_pos_after, _ = env.get_object_pose(tray_id)
+    
+    # Verify tray hasn't moved significantly (within 0.5mm)
+    position_drift = abs(tray_pos_after[2] - tray_pos[2])
+    if position_drift < 0.0005:
+        print(f"  ✓ PASS: Tray remains stable after physics simulation (drift: {position_drift*1000:.2f}mm)")
+    else:
+        print(f"  ✗ FAIL: Tray moved significantly after simulation (drift: {position_drift*1000:.2f}mm)")
+        result = False
+    
     # Check tray is in objects dict
     if tray_id in env.objects:
         print("  ✓ PASS: Tray is registered in objects dictionary")
@@ -150,11 +162,21 @@ def test_mixed_scene():
         color='blue'
     )
     
-    # Add various objects
-    cube_id = env.add_object('cube', 'red', (0.3, 0.0, 0.05), 0.05)
-    sphere_id = env.add_object('sphere', 'blue', (0.3, 0.15, 0.05), 0.05)
-    cup_id = env.add_object('cup', 'yellow', (0.3, -0.15, 0.075), 0.05)
-    bottle_id = env.add_object('bottle', 'green', (0.4, 0.0, 0.0625), 0.05)
+    # Add various objects with calculated z-positions
+    # For objects resting on table, z = object_height / 2
+    cube_size = 0.05
+    cube_id = env.add_object('cube', 'red', (0.3, 0.0, cube_size/2), cube_size)
+    
+    sphere_size = 0.05
+    sphere_id = env.add_object('sphere', 'blue', (0.3, 0.15, sphere_size/2), sphere_size)
+    
+    cup_size = 0.05
+    cup_height = cup_size * 1.5  # Cups are 1.5x taller
+    cup_id = env.add_object('cup', 'yellow', (0.3, -0.15, cup_height/2), cup_size)
+    
+    bottle_size = 0.05
+    bottle_height = bottle_size * 2.5  # Bottles are 2.5x taller
+    bottle_id = env.add_object('bottle', 'green', (0.4, 0.0, bottle_height/2), bottle_size)
     
     # Step simulation
     env.step(num_steps=100)
