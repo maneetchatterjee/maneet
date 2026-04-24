@@ -1,0 +1,21 @@
+# Generated at training time – do not commit these to git
+logs/
+videos/
+results/
+
+# Keep the directory itself (for git tracking)
+!checkpoints/.gitkeep
+
+# Checkpoint files produced during training
+checkpoints/a1_ppo_*.zip
+checkpoints/a1_ppo_*.pkl
+checkpoints/a1_ppo_*_meta.json
+checkpoints/best/
+
+# Python artefacts
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+.venv/

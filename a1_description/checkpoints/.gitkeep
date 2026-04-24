@@ -1,0 +1,2 @@
+# Model checkpoints are written here during training.
+# This directory is tracked in git to preserve the directory structure.

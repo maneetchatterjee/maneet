@@ -1,0 +1,83 @@
+# PPO hyperparameter configuration for Unitree A1 stair climbing.
+# All values can be overridden from the command line via --cfg-override key=value.
+# See training/train.py for argument handling.
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
+training:
+  total_timesteps: 5_000_000     # total environment interactions
+  n_envs: 8                      # number of parallel rollout environments
+  seed: 42                       # master RNG seed
+
+# ---------------------------------------------------------------------------
+# PPO algorithm (Stable Baselines3)
+# ---------------------------------------------------------------------------
+ppo:
+  learning_rate: 3.0e-4          # Adam step size
+  n_steps: 2048                  # rollout steps collected per env per update
+  batch_size: 512                # mini-batch size for PPO updates
+  n_epochs: 10                   # gradient update passes per rollout
+  gamma: 0.99                    # discount factor
+  gae_lambda: 0.95               # GAE lambda (bias-variance trade-off)
+  clip_range: 0.2                # PPO clipping parameter
+  clip_range_vf: null            # value function clip range (null = same as policy)
+  ent_coef: 0.005                # entropy bonus coefficient (encourages exploration)
+  vf_coef: 0.5                   # value function loss weight
+  max_grad_norm: 0.5             # gradient clipping norm
+  normalize_advantage: true      # whether to normalise advantages per mini-batch
+
+# ---------------------------------------------------------------------------
+# Policy network architecture
+# ---------------------------------------------------------------------------
+policy:
+  net_arch: [256, 256]           # hidden layer sizes for both actor and critic
+  activation_fn: "tanh"          # tanh | relu | elu
+  ortho_init: true               # orthogonal weight initialisation (recommended)
+  log_std_init: -2.0             # initial log standard deviation for actions
+
+# ---------------------------------------------------------------------------
+# Environment / simulation
+# ---------------------------------------------------------------------------
+env:
+  terrain_type: null             # null → random terrain each episode
+  use_domain_randomization: true
+  # Observation normalisation via VecNormalize
+  norm_obs: true
+  norm_reward: true
+  clip_obs: 10.0
+
+# ---------------------------------------------------------------------------
+# Curriculum learning
+# ---------------------------------------------------------------------------
+curriculum:
+  enabled: true
+  success_threshold: 0.70        # fraction of episodes needed to advance stage
+  window: 50                     # evaluation window (number of episodes)
+
+# ---------------------------------------------------------------------------
+# Reward shaping
+# ---------------------------------------------------------------------------
+reward:
+  forward_vel: 2.0
+  height_gain: 8.0
+  upright: 1.0
+  gait_symmetry: 0.3
+  foot_contact: 0.2
+  action_smooth: 0.05
+  torque_smooth: 0.002
+  alive: 0.5
+  fall: -20.0
+  target_forward_vel: 0.4        # m/s
+
+# ---------------------------------------------------------------------------
+# Logging / checkpointing
+# ---------------------------------------------------------------------------
+logging:
+  log_dir: "./logs"
+  checkpoint_dir: "./checkpoints"
+  checkpoint_freq: 250_000       # save a checkpoint every N timesteps
+  eval_freq: 100_000             # run evaluation every N timesteps
+  n_eval_episodes: 20            # episodes per evaluation
+  tensorboard: true              # enable TensorBoard logging
+  verbose: 1                     # SB3 verbosity (0=silent, 1=info, 2=debug)
