@@ -1,7 +1,7 @@
 """
 Gymnasium environment for Unitree A1 stair climbing via PPO.
 
-Observation space (48-dimensional float32 vector):
+Observation space (49-dimensional float32 vector):
     [0:3]   Base linear velocity in world frame (vx, vy, vz)
     [3:6]   Base angular velocity in body frame (ωx, ωy, ωz)
     [6:9]   Projected gravity vector in body frame

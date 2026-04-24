@@ -13,6 +13,22 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+# Import curriculum constant to keep the max-stage display in sync.
+# Imported lazily inside the print call to avoid a circular import at module load.
+_CURRICULUM_MAX_STAGE: int | None = None
+
+
+def _get_curriculum_max_stage() -> int:
+    """Return ``CurriculumTerrainScheduler.N_STAGES - 1`` (cached)."""
+    global _CURRICULUM_MAX_STAGE
+    if _CURRICULUM_MAX_STAGE is None:
+        try:
+            from envs.terrain import CurriculumTerrainScheduler
+            _CURRICULUM_MAX_STAGE = CurriculumTerrainScheduler.N_STAGES - 1
+        except ImportError:
+            _CURRICULUM_MAX_STAGE = 4  # fallback default
+    return _CURRICULUM_MAX_STAGE
+
 
 class TrainingLogger:
     """CSV + stdout logger for stair-climbing training metrics.
@@ -99,7 +115,7 @@ class TrainingLogger:
                 f"[ep {self._episode:6d} | t={timestep:9d}] "
                 f"rew={reward:8.2f}  z_max={max_trunk_z:.3f}m  "
                 f"fell={int(fell)}  success={int(success)}  "
-                f"curriculum={curriculum_stage}/{4}",
+                f"curriculum={curriculum_stage}/{_get_curriculum_max_stage()}",
                 file=sys.stdout,
                 flush=True,
             )
