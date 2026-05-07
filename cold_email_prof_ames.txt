@@ -1,0 +1,18 @@
+Subject: Summer Research Internship - Safe Learning for Bipedal Locomotion
+
+Dear Prof. Ames,
+
+I'm Maneet Chatterjee, a 3rd-year undergraduate in mechanical engineering, looking for a summer research internship at your AMBER Lab. Your work on enabling bipedal robots to achieve dynamic, agile locomotion while maintaining formal safety guarantees aligns perfectly with my interests in robotics and control.
+
+What draws me most to your research is the integration of learning-based methods with formal control techniques for legged robots. During my R&D internship at Ansys, I worked on control, digital twin, and simulation-driven robotic systems, where I encountered the fundamental tension between achieving agile performance and maintaining safety in complex dynamical systems. Your CLF-CBF-QP framework addresses this by unifying Control Lyapunov Functions for stabilization with Control Barrier Functions for safety through real-time quadratic programming. The insight that barrier functions can act as safety filters for learning-enabled controllers is particularly compelling—it allows robots to learn increasingly capable behaviors while preserving safety guarantees.
+
+The challenges become even more apparent in bipedal locomotion, where hybrid dynamics with discrete contact events make traditional model-based control difficult to generalize across terrains. Your work on hybrid zero dynamics provides a principled framework for these contact transitions, and your recent research on learning-based approaches for agile locomotion demonstrates how data-driven methods can enhance classical control. I'm particularly interested in how learned models of contact dynamics can be integrated with barrier function-based safety filters. A question I've been exploring: when robots learn locomotion gaits through reinforcement learning, how can we construct adaptive barrier functions that evolve with the learned policy while maintaining provable safety? Could jointly learning barrier functions and control policies from safe demonstrations provide stronger guarantees than post-hoc verification?
+
+I have research publications in deep learning and state-space models, and I've gained experience in robotic manipulation and motion planning through simulation. More about my work can be found in my CV. I'm also planning to apply for the ThinkSwiss Research Scholarship, which could help support the internship if selected.
+
+I'd be very interested in discussing how I could contribute to ongoing or upcoming projects in your lab this summer.
+
+Thank you,
+Maneet Chatterjee
+2023MEB045
+Indian Institute of Engineering Science and Technology, Shibpur
