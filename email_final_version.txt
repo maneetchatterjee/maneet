@@ -1,0 +1,20 @@
+Subject: SURF Application: CBF-Based Safety for Manipulation
+
+Dear Professor Ames,
+
+I am writing to express my interest in the Caltech SURF program at AMBER Lab. I am Maneet Chatterjee, currently developing a VLA pipeline for robotic manipulation, with prior work on digital twin systems at Ansys.
+
+Your recent work on "Learning Control Barrier Functions from Expert Demonstrations" (CDC 2023) addresses a challenge I encountered while building my system. I implemented a manipulation pipeline with learned perception and model-based control, but it lacks formal safety certificates when these components interact. Your framework for synthesizing CBFs from demonstrations while maintaining forward invariance is a direction I would like to explore further.
+
+The problem that most interests me is extending CBF theory to manipulation where contact geometry is uncertain. I see a parallel to your work on bipedal locomotion: grasp-to-place transitions involve intermittent contact where the robot must switch between constrained and free-space motion while maintaining safety. I am interested in whether CBF-based controllers can be composed hierarchically to handle both collision avoidance and contact stability.
+
+My VLA system includes a QP-based trajectory optimizer and symbolic planner that could serve as a platform for this research. I have experience working at the intersection of symbolic reasoning and continuous control.
+
+I am applying for Summer 2026 SURF and would welcome the opportunity to contribute to research in learning-enabled safe control. I have attached my CV and a brief technical overview.
+
+Thank you for considering my application.
+
+Sincerely,
+
+Maneet Chatterjee  
+GitHub: https://github.com/maneetchatterjee/maneet

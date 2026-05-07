@@ -1,0 +1,21 @@
+Subject: SURF Application: CBF-Based Safety for Learning-Enabled Manipulation Systems
+
+Dear Professor Ames,
+
+I am writing to express my interest in pursuing research at AMBER Lab through the Caltech SURF program. I am Maneet Chatterjee, currently developing research-grade vision-language-action systems for robotic manipulation, building on prior work in digital twin robotics at Ansys where I addressed simulation-to-reality transfer challenges.
+
+Your recent work on learning-enabled control with safety guarantees, particularly the framework presented in "Learning Control Barrier Functions from Expert Demonstrations" (CDC 2023), directly addresses a critical challenge I encountered while developing my VLA pipeline. I implemented a modular system with compositional semantic parsing, STRIPS-based symbolic planning, and damped least-squares IK with singularity handling—achieving 98% convergence across diverse manipulation tasks. However, the system lacks formal safety certificates when integrating learned perception modules with model-based control. Your approach of synthesizing CBFs from demonstrations while maintaining forward invariance provides exactly the principled framework I need to bridge data-driven perception with provably safe control.
+
+The technical challenge that most interests me is how to extend CBF theory to manipulation systems where contact geometry is uncertain and constraint activation is state-dependent. In bipedal locomotion, you have elegantly addressed discrete mode transitions through hybrid zero dynamics and event-triggered control. I see a parallel problem in manipulation: grasp-to-place transitions involve intermittent contact where the robot must switch between constrained and free-space motion while maintaining safety. Your recent work on input-output linearization for underactuated systems (RA-L 2024) suggests a path forward, but the challenge of unknown contact dynamics in cluttered environments remains open. I am particularly interested in investigating whether CBF-based controllers can be composed hierarchically to handle both collision avoidance (high-level safety) and contact stability (low-level constraint satisfaction) simultaneously.
+
+My VLA pipeline provides a concrete platform for such research. The system includes a working QP-based trajectory optimizer that could be extended with CBF constraints, and a STRIPS planner that generates formally verified action sequences with explicit preconditions and effects. I have implemented ablation studies comparing different planning and control strategies, achieving quantitative metrics suitable for publication (formal verification framework, perception validation under noise, convergence analysis). More importantly, I designed the architecture to be modular: swapping in CBF-based controllers would require minimal changes to the existing codebase while enabling rigorous comparison against baseline methods. Beyond implementation capability, I bring experience thinking about the intersection of symbolic reasoning and continuous control—I developed compositional semantic parsing that generates structured programs from natural language, mirroring how hybrid systems bridge discrete logic and continuous dynamics.
+
+I am applying for Summer 2026 SURF and would be honored to contribute to ongoing research in learning-enabled safe control or hybrid systems for contact-rich tasks. The prospect of working on real hardware (Cassie, Digit) while developing theory that provides formal guarantees is exactly the research trajectory I hope to pursue. I have attached my CV and a technical overview of my VLA system, including architectural decisions and experimental results.
+
+Thank you for considering my application. I look forward to the possibility of contributing to AMBER Lab's research.
+
+Sincerely,
+
+Maneet Chatterjee  
+GitHub: https://github.com/maneetchatterjee/maneet  
+VLA Pipeline: Research-Grade Vision-Language-Action for Manipulation

@@ -1,0 +1,20 @@
+Subject: Research Opportunity in Hybrid Systems and Safety-Critical Control - Caltech SURF
+
+Dear Professor Ames,
+
+I am writing to express my interest in pursuing research at AMBER Lab through the Caltech SURF program. I am Maneet Chatterjee, currently developing vision-language-action pipelines for robotic manipulation, with prior work in digital twin robotics at Ansys.
+
+During my Ansys internship on digital twin systems, I faced the fundamental challenge of providing formal safety guarantees for robot control in simulation. Your work on Control Barrier Functions addresses exactly this gap between theoretical safety certificates and real-time implementability. What particularly draws me to your research is how CBFs provide Lyapunov-like guarantees for forward invariance while remaining computationally tractable through QP formulations. In my VLA project, I implemented custom inverse kinematics with damped least squares for singularity handling, but lacked a principled framework for safety certification. CBFs would provide the mathematical rigor I was missing.
+
+Your approach to bipedal locomotion through hybrid zero dynamics resonates with challenges I encountered in manipulation planning. The idea of embedding desired behaviors through output zeroing and managing discrete mode transitions parallels problems in contact-rich manipulation, where grasp-to-place transitions require similar hybrid system treatment. I am particularly interested in how these concepts might extend to manipulation tasks involving intermittent contact and constraint switching.
+
+I can contribute immediately through my implementation experience with optimization-based control and symbolic planning. My VLA pipeline includes a working QP-based trajectory optimizer and STRIPS-style symbolic planner, both of which could serve as testbeds for CBF integration. I have implemented formal verification checks for state predicates and action preconditions, giving me practical experience with the computational side of safety-critical systems. More fundamentally, I work comfortably at the intersection of continuous control and discrete logic, which seems central to your lab's approach.
+
+I am applying for Summer 2026 SURF and would welcome the opportunity to work on CBF-based manipulation control or hybrid systems for contact-rich tasks. I have attached my CV and a technical summary of my VLA work.
+
+Thank you for your consideration.
+
+Sincerely,
+
+Maneet Chatterjee  
+GitHub: https://github.com/maneetchatterjee/maneet
