@@ -1,0 +1,39 @@
+algorithm:
+  type: sac
+
+agent:
+  lr: 0.0003
+  gamma: 0.99
+  tau: 0.005
+  alpha: 0.2
+  auto_entropy_tuning: true
+  n_step: 3
+
+training:
+  total_steps: 5000  # Reduced for demo
+  random_steps: 1000
+  learning_starts: 1000
+  batch_size: 64  # Smaller batch for demo
+  buffer_size: 10000  # Smaller buffer for demo
+  max_episode_steps: 200  # Shorter episodes
+  checkpoint_interval: 2000
+  eval_interval: 2000
+  eval_episodes: 2
+  update_every: 1
+
+env:
+  domain_randomization:
+    randomize_mass: false  # Disable for demo
+    randomize_friction: false
+    randomize_damping: false
+
+logging:
+  log_interval: 100
+
+paths:
+  log_dir: results/demo/logs
+  checkpoint_dir: results/demo/checkpoints
+  video_dir: results/demo/videos
+
+device: cpu  # Use CPU for demo
+seed: 42

@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/runner/work/maneet/maneet
+collecting ... collected 9 items
+
+tests/test_rl_stack.py::TestEnvironment::test_env_creation PASSED        [ 11%]
+tests/test_rl_stack.py::TestEnvironment::test_env_reset PASSED           [ 22%]
+tests/test_rl_stack.py::TestEnvironment::test_env_step PASSED            [ 33%]
+tests/test_rl_stack.py::TestEnvironment::test_action_clipping PASSED     [ 44%]
+tests/test_rl_stack.py::TestSeeding::test_set_seed PASSED                [ 55%]
+tests/test_rl_stack.py::TestSeeding::test_rng_state PASSED               [ 66%]
+tests/test_rl_stack.py::TestCheckpointing::test_save_load_checkpoint PASSED [ 77%]
+tests/test_rl_stack.py::TestReplayBuffer::test_buffer_add_sample PASSED  [ 88%]
+tests/test_rl_stack.py::TestSmokeTraining::test_sac_training_short PASSED [100%]
+
+============================== 9 passed in 5.15s ===============================

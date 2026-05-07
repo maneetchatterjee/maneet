@@ -1,0 +1,43 @@
+# Configuration for SAC (model-free baseline)
+algorithm:
+  type: sac
+
+agent:
+  lr: 0.0003
+  gamma: 0.99
+  tau: 0.005
+  alpha: 0.2
+  auto_entropy_tuning: true
+  n_step: 3
+
+training:
+  total_steps: 1000000
+  random_steps: 10000
+  learning_starts: 1000
+  batch_size: 256
+  buffer_size: 1000000
+  max_episode_steps: 1000
+  checkpoint_interval: 50000
+  eval_interval: 25000
+  eval_episodes: 10
+  update_every: 1
+
+env:
+  domain_randomization:
+    randomize_mass: true
+    mass_range: [0.8, 1.2]
+    randomize_friction: true
+    friction_range: [0.5, 1.5]
+    randomize_damping: true
+    damping_range: [0.1, 1.0]
+
+logging:
+  log_interval: 100
+
+paths:
+  log_dir: results/sac/logs
+  checkpoint_dir: results/sac/checkpoints
+  video_dir: results/sac/videos
+
+device: cuda
+seed: 42

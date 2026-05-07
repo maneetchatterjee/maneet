@@ -1,0 +1,81 @@
+================================================================================
+              GYM TO GYMNASIUM MIGRATION - COMPLETE SUMMARY
+================================================================================
+
+PROBLEM:
+--------
+When running training scripts, users see this deprecation warning:
+
+  "Gym has been unmaintained since 2022 and does not support NumPy 2.0 
+   amongst other critical functionality. Please upgrade to Gymnasium, 
+   the maintained drop-in replacement of Gym."
+
+SOLUTION:
+---------
+Migrated from deprecated 'gym' library to 'gymnasium' (maintained replacement)
+
+CHANGES:
+--------
+
+1. src/envs/biped_env.py
+   Line 1:  # Custom Gym environment → # Custom Gymnasium environment
+   Line 7:  import gym → import gymnasium as gym
+   Line 8:  from gym import spaces → from gymnasium import spaces
+   Line 13: class BipedEnv(gym.Env) → [unchanged, works via alias]
+
+2. requirements.txt
+   Removed: gym>=0.26.0
+   Kept:    gymnasium>=0.28.0
+
+3. environment.yml
+   Removed: - gym>=0.26.0
+   Kept:    - gymnasium>=0.28.0
+
+NEW FILES:
+----------
+- GYMNASIUM_MIGRATION.md       (3.3 KB) - Complete migration documentation
+- verify_gymnasium_migration.py (2.2 KB) - Automated verification script
+- MIGRATION_SUMMARY.txt         (this file) - Quick reference
+
+VERIFICATION:
+-------------
+1. Run verification script:
+   $ python verify_gymnasium_migration.py
+
+2. Run training script:
+   $ python run_experiment.py --config configs/sac_config.yaml
+
+3. Expected result:
+   ✓ No gym deprecation warning
+   ✓ Training runs normally
+   ✓ All functionality preserved
+
+BENEFITS:
+---------
+✅ Eliminates deprecation warning
+✅ NumPy 2.0 support
+✅ Active maintenance and bug fixes
+✅ 100% backward compatible API
+✅ Future-proof codebase
+
+TECHNICAL DETAILS:
+------------------
+- Gymnasium is a drop-in replacement for Gym
+- Same API: gym.Env, gym.spaces work identically
+- Import alias 'import gymnasium as gym' maintains compatibility
+- No changes needed to algorithms, training scripts, or tests
+
+COMMITS:
+--------
+1. d9d26a2 - Migrate from gym to gymnasium to fix deprecation warning
+2. 7291e18 - Add gymnasium migration documentation and verification script
+
+REFERENCES:
+-----------
+- Gymnasium: https://gymnasium.farama.org/
+- Migration Guide: https://gymnasium.farama.org/introduction/migration_guide/
+- GitHub: https://github.com/Farama-Foundation/Gymnasium
+
+================================================================================
+                              MIGRATION COMPLETE ✅
+================================================================================
