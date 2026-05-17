@@ -1,0 +1,19 @@
+Subject: Multi-Agent Coordination Research - Summer 2026
+
+Dear Prof. Sartoretti,
+
+I am Maneet Chatterjee from Ansys R&D, writing to explore summer research at MARMot Lab through Caltech SURF.
+
+I build vision-language-action systems for robot manipulation—currently single-agent, but the problem I want to solve requires multiple robots. When tasks are specified in natural language ("move these parts to assembly stations"), how should agents coordinate without a central planner? Your work on decentralized MAPF, especially using attention mechanisms for coordination under partial observability, offers a framework for thinking about this problem.
+
+What interests me most is the gap between what works in simulation and what scales to real systems. My current pipeline (custom IK, symbolic planning, language parsing) demonstrates good manipulation performance, but I know the hard part is making it work with multiple robots in shared workspaces. Your research on learned communication protocols and scalable coordination suggests approaches that could bridge this gap.
+
+I think I could contribute in two specific ways. First, implementing and testing coordination mechanisms within a manipulation context, where workspace constraints and object handoffs create dependencies absent in pure navigation tasks. Second, developing benchmarks that measure coordination efficiency beyond binary success—how do communication overhead, task completion variance, and failure recovery scale with team size?
+
+My strength is building systems that work reliably and testing them thoroughly. I care more about what actually functions than theoretical optimality. From your published work, it seems MARMot Lab shares this deployment-focused approach.
+
+Could we discuss whether multi-agent manipulation fits your lab's current focus? I would like to understand what problems you see as most pressing before preparing my SURF application.
+
+Best regards,
+Maneet Chatterjee
+Ansys R&D | https://github.com/maneetchatterjee
