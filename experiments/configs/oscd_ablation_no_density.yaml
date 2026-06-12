@@ -1,0 +1,82 @@
+# Configuration for ablation study - No density model baseline
+
+experiment:
+  name: "oscd_no_density"
+  seed: 42
+  output_dir: "experiments/runs"
+
+model:
+  backbone: "resnet18"
+  embedding_dim: 128
+  density_model: null            # No density model
+  pretrained: true
+  input_channels: 3
+
+ensemble:
+  enabled: false
+
+dataset:
+  name: "oscd"
+  root_dir: "data/OSCD"
+  patch_size: 256
+  use_rgb_only: true
+  normalize: true
+  
+  train_regions:
+    - "abudhabi"
+    - "aguasclaras"
+    - "beihai"
+  val_regions:
+    - "beirut"
+  test_regions:
+    - "bercy"
+
+training:
+  batch_size: 16
+  epochs: 100
+  num_workers: 4
+  
+  optimizer:
+    type: "adamw"
+    lr: 0.0001
+    weight_decay: 0.01
+  
+  scheduler:
+    type: "cosine"
+    min_lr: 0.000001
+    warmup_epochs: 5
+  
+  loss:
+    type: "bce"                  # Simple BCE loss
+    pos_weight: 2.0
+  
+  mixed_precision: true
+  gradient_clip: 1.0
+  
+  checkpoint:
+    save_freq: 10
+    save_best: true
+
+density_model_training:
+  enabled: false                 # No density model
+
+thresholds:
+  no_change: 0.5
+  change_confident: 0.5          # No abstention (same threshold)
+  log_likelihood: -1000.0        # Effectively disabled
+  uncertainty: 1.0               # Effectively disabled
+
+evaluation:
+  metrics:
+    - "precision"
+    - "recall"
+    - "f1"
+    - "iou"
+  
+  compute_ood: false             # No OOD evaluation
+  compute_calibration: true
+  save_visualizations: true
+  
+  visualization:
+    num_samples: 10
+    save_dir: "visualizations"
